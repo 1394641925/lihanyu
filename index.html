@@ -101,9 +101,17 @@ h1 em{font-style:normal;color:var(--brand);position:relative;white-space:nowrap}
 
 /* mockup */
 .mock{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 30px 80px rgba(15,23,42,.1),0 2px 8px rgba(15,23,42,.04);overflow:hidden;transform:rotate(.35deg)}
-.mock-bar{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.mock-bar{display:flex;align-items:center;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-2)}
 .mock-bar i{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
 .mock-bar i:first-child{background:#e8b4b4}
+.mock-url{margin-left:8px;font-size:10.5px;color:var(--ink-4);letter-spacing:.01em}
+.mock-demo{margin-left:auto;font-size:9px;letter-spacing:.14em;color:var(--ink-4);border:1px solid var(--line-2);border-radius:4px;padding:2px 6px}
+.mock-cap{margin-top:11px;text-align:center;font-size:10.5px;color:var(--ink-4);line-height:1.65}
+
+/* 摆渡人照片 */
+.ferry-photo{margin-top:24px}
+.ferry-photo img{width:100%;height:185px;object-fit:cover;border-radius:12px;display:block;filter:saturate(.55) brightness(.92)}
+.ferry-photo span{display:block;margin-top:9px;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.03em;line-height:1.7}
 .mock-body{padding:20px 22px 22px}
 .mock-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .mock-head b{font-size:14px;font-weight:600}
@@ -167,6 +175,30 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
 .svc h3{font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:.02em}
 .svc p{font-size:13px;line-height:1.95;color:var(--ink-3)}
 .svc .sub{display:block;margin-top:16px;font-size:12px;color:var(--accent);font-weight:600;padding-top:13px;border-top:1px dashed var(--line)}
+
+/* 场景 */
+.scene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:6px}
+.scene{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.35s}
+.scene:hover{box-shadow:0 18px 48px rgba(15,23,42,.08);transform:translateY(-3px)}
+.scene img{width:100%;height:205px;object-fit:cover;filter:saturate(.5) contrast(1.02);display:block}
+.scene-b{padding:18px 20px 20px}
+.scene-b b{font-size:14.5px;font-weight:600;display:block;margin-bottom:8px;letter-spacing:.01em}
+.scene-b p{font-size:12.5px;line-height:1.85;color:var(--ink-3)}
+
+/* 流程尾图 */
+.flow-end{position:relative;height:300px;border-radius:14px;overflow:hidden;margin-top:26px}
+.flow-end img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.5) brightness(.85)}
+.flow-end::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,.62),rgba(15,23,42,.16))}
+.flow-end .fe-t{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding-left:46px}
+.flow-end h3{color:#fff;font-size:clamp(20px,2.6vw,28px);font-weight:700;letter-spacing:.02em}
+.flow-end p{margin-top:10px;font-size:13.5px;color:rgba(255,255,255,.72)}
+
+/* 值班室 */
+.shift-grid{display:grid;grid-template-columns:1fr 1.12fr;gap:56px;align-items:center}
+.shift-img img{width:100%;height:400px;object-fit:cover;border-radius:14px;filter:saturate(.5) contrast(1.02);display:block}
+.shift-meta{margin-top:26px;padding-top:20px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-3);display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.shift-meta b{font-size:22px;font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums}
+.shift-meta span{color:var(--line-2)}
 
 /* 图片 banner */
 .banner{position:relative;height:380px;overflow:hidden}
@@ -363,6 +395,12 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   .hl-mark{writing-mode:horizontal-tb;border-left:none;border-top:2px solid rgba(184,135,63,.5);padding:10px 0 0}
   .foot-grid{grid-template-columns:1fr 1fr;gap:28px}
   .foot-brand{grid-column:1/-1}
+  .scene-grid{grid-template-columns:1fr;gap:14px}
+  .scene img{height:200px}
+  .flow-end{height:230px}
+  .flow-end .fe-t{padding-left:26px}
+  .shift-grid{grid-template-columns:1fr;gap:26px}
+  .shift-img img{height:240px}
   .tbl{font-size:12px}
   .tbl th,.tbl td{padding:11px 10px}
   .tbl td:first-child{width:28%}
@@ -381,6 +419,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   .chat-input input{padding:14px 14px;font-size:13px}
   .chat-input button{padding:0 16px;font-size:12px}
   .foot-grid{grid-template-columns:1fr}
+  .flow-end{height:200px}
 }
 </style>
 </head>
@@ -450,9 +489,9 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
       </div>
     </div>
     <div class="mock rv" style="transition-delay:.18s">
-      <div class="mock-bar"><i></i><i></i><i></i></div>
+      <div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">bian.app / 资产清单</span><span class="mock-demo">DEMO</span></div>
       <div class="mock-body">
-        <div class="mock-head"><b>我的资产清单</b><span>更新于 2 小时前</span></div>
+        <div class="mock-head"><b>资产清单 · 模板</b><span>演示数据</span></div>
         <div class="mock-cards">
           <div class="mc"><b>9</b><span>已托管</span></div>
           <div class="mc hot"><b>3</b><span>待确认</span></div>
@@ -463,6 +502,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
         <div class="mock-row"><i class="p"></i><span>个人云盘</span><em>审核中</em></div>
         <div class="mock-row"><i class="p"></i><span>游戏账号</span><em>待确认</em></div>
         <div class="mock-foot"><i></i><span>三把钥匙验证机制</span><b>运行正常</b></div>
+        <p class="mock-cap">示例界面 · 数据为虚构，请勿对号入座。创建后自动替换为您的真实清单。</p>
       </div>
     </div>
   </div>
@@ -518,6 +558,42 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
         <b>隐私内容无法处置</b>
         <p>私信、浏览记录、草稿与小号在用户离世后成为无人管理的「数字遗产」，缺乏统一处置机制。</p>
         <em>行业暂无默认方案</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 场景 -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div>
+        <div class="sec-tag rv">真实时刻</div>
+        <h2 class="rv">多数委托，从这三个场景开始。</h2>
+      </div>
+      <p class="sec-desc rv" style="transition-delay:.08s">以下场景由真实委托改编。人物均已匿名——这是他们本人特意要求的。</p>
+    </div>
+    <div class="scene-grid">
+      <div class="scene rv">
+        <img src="assets/scene-night.jpg" alt="深夜的对话框" loading="lazy">
+        <div class="scene-b">
+          <b>23:47，最后一条消息</b>
+          <p>对话框停在「在吗」，第二天没有下文。三个月过去，对方头像仍是彩色的。</p>
+        </div>
+      </div>
+      <div class="scene rv" style="transition-delay:.06s">
+        <img src="assets/scene-drawer.jpg" alt="抽屉里的旧物" loading="lazy">
+        <div class="scene-b">
+          <b>抽屉里的十四个 U 盘</b>
+          <p>家人整理出的全部数字遗产。其中五个设了密码，至今无人能解开。</p>
+        </div>
+      </div>
+      <div class="scene rv" style="transition-delay:.12s">
+        <img src="assets/scene-light.jpg" alt="亮着的灯" loading="lazy">
+        <div class="scene-b">
+          <b>亮着的灯</b>
+          <p>账号仍在自动续费，账单照常弹出。系统提示：本月访问 0 次。</p>
+        </div>
       </div>
     </div>
   </div>
@@ -619,6 +695,13 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
         <span class="flow-tag">全程留痕</span>
       </div>
     </div>
+    <div class="flow-end rv">
+      <img src="assets/flow-end.jpg" alt="" loading="lazy">
+      <div class="fe-t">
+        <h3>四步之后，您继续生活。</h3>
+        <p>剩下的事按计划发生，不需要任何人再猜。</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -713,6 +796,24 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
         <div class="stat-num"><span class="cnt" data-to="98.6" data-dec="1">0</span><i>%</i></div>
         <div class="stat-lb">服务满意度</div>
         <div class="stat-nt">回访渠道特殊，样本量有限。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 值班室 -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap shift-grid">
+    <div class="shift-img rv"><img src="assets/office.jpg" alt="值班室" loading="lazy"></div>
+    <div class="shift-t">
+      <div class="sec-tag rv">值班室</div>
+      <h2 class="rv">凌晨一点，这盏灯还亮着。</h2>
+      <p class="rv" style="transition-delay:.06s">两台显示器，一份被逐行核对的清单，一壶没喝完的茶。执行顾问在深夜作业——绝大多数「身后触发」，都发生在家属来不及思考的时刻。</p>
+      <p class="rv" style="transition-delay:.1s">全部执行顾问均通过「不安慰培训」：我们负责把事情办完，安慰的工作交给时间。</p>
+      <div class="shift-meta rv" style="transition-delay:.14s">
+        <div><b>42</b> 名执行顾问</div><span>·</span>
+        <div><b>24h</b> 触发响应</div><span>·</span>
+        <div><b>0</b> 起执行事故</div>
       </div>
     </div>
   </div>
@@ -822,6 +923,10 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
           <b>工号 0042</b> · 已接待 8,213 人<br>
           平均对话时长 <b>11 分钟</b><br>
           最长单次对话 <b>4 小时</b>
+        </div>
+        <div class="ferry-photo rv" style="transition-delay:.2s">
+          <img src="assets/lighthouse.jpg" alt="灯塔" loading="lazy">
+          <span>值班室窗外没有灯塔。但每次系统触发，都确实有一盏灯亮着。</span>
         </div>
       </div>
       <div class="chatbox rv" style="transition-delay:.06s">
