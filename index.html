@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>彼岸 · 一站式数字身后事</title>
+<meta name="description" content="彼岸，一站式数字身后事智能体。数字遗产托管、意愿存证、身后代办、纪念空间。向死而在，从注册开始。">
+<meta name="theme-color" content="#f6f3ec">
+<style>
+:root{
+  --paper:#f6f3ec;
+  --paper-2:#efeade;
+  --paper-3:#fbf8f0;
+  --ink:#1a1915;
+  --ink-2:#3d3931;
+  --ink-3:#817b70;
+  --ink-4:#a8a196;
+  --gold:#a3803c;
+  --gold-2:#c4a25d;
+  --line:#e2ddcf;
+  --line-2:#d3ccBA;
+  --dark:#131210;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC","Songti TC",Georgia,"Times New Roman",serif;
+  background:var(--paper);color:var(--ink);line-height:1.85;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::selection{background:var(--gold);color:#fff}
+
+/* 纸纹 */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.03;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");
+}
+
+/* 进度条 */
+.progress{position:fixed;top:0;left:0;height:1px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));z-index:1001;transition:width .12s linear}
+
+/* 布局 */
+.wrap{max-width:1140px;margin:0 auto;padding:0 36px}
+.narrow{max-width:730px;margin:0 auto;padding:0 36px}
+
+/* 导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 0;transition:padding .5s,background .5s,border-color .5s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(246,243,236,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom-color:var(--line);padding:12px 0}
+.nav-in{max-width:1140px;margin:0 auto;padding:0 36px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:13px}
+.seal{
+  width:34px;height:34px;border:1px solid var(--ink);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-size:11px;line-height:1.15;letter-spacing:1px;flex:0 0 auto;
+  transition:background .3s,color .3s;
+}
+.brand:hover .seal{background:var(--ink);color:var(--paper)}
+.brand-txt{display:flex;flex-direction:column;line-height:1.25}
+.brand-txt b{font-weight:400;font-size:15px;letter-spacing:.32em}
+.brand-txt span{font-size:9px;letter-spacing:.28em;color:var(--ink-4);text-transform:uppercase}
+.nv{display:flex;align-items:center;gap:34px}
+.nv a{font-size:13.5px;letter-spacing:.12em;color:var(--ink-2);position:relative;padding:4px 0}
+.nv a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .35s}
+.nv a:hover::after{width:100%}
+.nv .nav-cta{border:1px solid var(--ink);padding:9px 20px;font-size:12.5px;letter-spacing:.16em;transition:.35s}
+.nv .nav-cta::after{display:none}
+.nv .nav-cta:hover{background:var(--ink);color:var(--paper)}
+
+/* 侧边竖字 */
+.side-mark{
+  position:fixed;right:30px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;
+  font-size:11px;letter-spacing:.62em;color:var(--ink-4);z-index:40;
+  opacity:0;transition:opacity 1.2s;pointer-events:none;
+}
+.side-mark.on{opacity:1}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 0;overflow:hidden}
+.hero .wrap{position:relative;z-index:2}
+.kicker{
+  display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.42em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:40px;
+}
+.kicker::before{content:'';width:46px;height:1px;background:var(--gold);display:block}
+h1{
+  font-size:clamp(46px,7.4vw,94px);font-weight:400;line-height:1.1;letter-spacing:.035em;
+  margin-bottom:14px;
+}
+h1 .g{color:var(--gold)}
+h1 .hollow{color:transparent;-webkit-text-stroke:1px var(--ink-3)}
+.lead{
+  margin-top:44px;font-size:clamp(16px,1.55vw,19px);line-height:2.1;color:var(--ink-2);
+  letter-spacing:.05em;max-width:30em;
+}
+.lead b{font-weight:400;color:var(--ink);border-bottom:1px solid var(--gold);padding-bottom:1px}
+.hero-actions{display:flex;gap:16px;margin-top:54px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;padding:15px 32px;font-size:14px;
+  letter-spacing:.16em;transition:.38s;border:1px solid var(--ink);
+}
+.btn .ar{font-size:16px;transition:transform .38s}
+.btn:hover .ar{transform:translateX(5px)}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn-ghost{color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+
+.hero-note{
+  margin-top:auto;padding:0 0 54px;font-size:12px;line-height:2;color:var(--ink-4);
+  letter-spacing:.06em;position:relative;z-index:2;
+}
+
+/* 水面 */
+.horizon{position:absolute;left:0;right:0;bottom:31vh;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 15%,var(--line-2) 85%,transparent);z-index:1}
+.water{position:absolute;left:0;right:0;bottom:0;height:31vh;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(19,18,16,0) 0%,rgba(19,18,16,.03) 45%,rgba(19,18,16,.085) 100%);}
+.water::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(180deg,rgba(163,128,60,.07) 0 1px,transparent 1px 27px);
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 65%);
+  mask-image:linear-gradient(180deg,transparent,#000 65%);
+  animation:drift 22s linear infinite;
+}
+@keyframes drift{to{background-position:0 27px}}
+
+/* 哲学条 */
+.philo{background:var(--dark);color:#ded8c9;padding:118px 0 96px;position:relative;overflow:hidden}
+.philo::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:1px;height:64px;background:linear-gradient(180deg,transparent,var(--gold));
+}
+.philo-head{text-align:center;font-size:11px;letter-spacing:.5em;color:var(--gold);margin-bottom:78px;text-transform:uppercase}
+.pq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:start}
+.pq{padding:0 36px;border-left:1px solid rgba(255,255,255,.09);display:flex;justify-content:center;height:430px}
+.pq:first-child{border-left:none}
+.pq-inner{writing-mode:vertical-rl;text-orientation:mixed;height:100%;display:flex;gap:24px;justify-content:flex-start}
+.pq-text{font-size:15.5px;letter-spacing:.17em;line-height:2;color:#e6e0d1}
+.pq-from{font-size:11px;letter-spacing:.24em;color:var(--gold);align-self:flex-end;padding-bottom:2px}
+.philo-foot{margin-top:74px;text-align:center;font-size:11.5px;letter-spacing:.1em;color:rgba(222,216,201,.36)}
+
+/* 章节通用 */
+.sec{padding:132px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:14px;flex-wrap:wrap}
+.sec-tag{font-size:11px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.sec-tag::before{content:'';width:30px;height:1px;background:var(--gold)}
+h2{font-size:clamp(30px,3.6vw,44px);font-weight:400;line-height:1.32;letter-spacing:.04em}
+.sec-desc{font-size:14.5px;color:var(--ink-3);line-height:2;max-width:26em;letter-spacing:.03em}
+.rule{height:1px;background:var(--line);margin:58px 0}
+
+/* 服务 */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:64px}
+.svc{background:var(--paper);padding:54px 46px 60px;position:relative;transition:background .5s;overflow:hidden}
+.svc:hover{background:var(--paper-3)}
+.svc::after{
+  content:'';position:absolute;left:46px;right:46px;bottom:0;height:1px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.22,.61,.36,1);
+}
+.svc:hover::after{transform:scaleX(1)}
+.svc-no{font-size:11px;letter-spacing:.4em;color:var(--gold);margin-bottom:26px}
+.svc h3{font-size:23px;font-weight:400;letter-spacing:.08em;margin-bottom:18px}
+.svc p{font-size:14px;line-height:2.05;color:var(--ink-3);letter-spacing:.02em}
+.svc .sub{display:block;margin-top:16px;font-size:12.5px;color:var(--ink-4);font-style:italic;letter-spacing:.02em}
+
+/* 流程 */
+.flow-wrap{background:var(--paper-2);padding:132px 0}
+.flow{margin-top:60px;border-top:1px solid var(--line-2)}
+.flow-item{display:grid;grid-template-columns:110px 1fr;gap:44px;padding:40px 0;border-bottom:1px solid var(--line-2);align-items:start;transition:.4s}
+.flow-no{font-size:13px;letter-spacing:.3em;color:var(--ink-4);padding-top:6px;transition:color .4s}
+.flow-item:hover .flow-no{color:var(--gold)}
+.flow-main h3{font-size:21px;font-weight:400;letter-spacing:.1em;margin-bottom:12px}
+.flow-main p{font-size:14px;line-height:2;color:var(--ink-3);max-width:40em}
+.flow-meta{display:inline-block;margin-top:14px;font-size:11.5px;letter-spacing:.16em;color:var(--gold);border:1px solid rgba(163,128,60,.3);padding:4px 12px}
+
+/* 数据 */
+.stats{background:var(--dark);color:#ded8c9;padding:100px 0 108px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.stat{padding:6px 30px;border-left:1px solid rgba(255,255,255,.09)}
+.stat:first-child{border-left:none;padding-left:0}
+.stat-num{font-size:clamp(30px,3.4vw,42px);font-weight:400;letter-spacing:.02em;color:#efe8d6;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat-num i{font-style:normal;font-size:.56em;color:var(--gold-2);margin-left:2px}
+.stat-lb{font-size:12.5px;letter-spacing:.14em;margin-top:12px;color:rgba(222,216,201,.78)}
+.stat-nt{font-size:10.5px;line-height:1.8;margin-top:8px;color:rgba(222,216,201,.34)}
+
+/* 定价 */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:66px;align-items:stretch}
+.plan{background:var(--paper-3);border:1px solid var(--line);padding:44px 34px 40px;display:flex;flex-direction:column;position:relative;transition:.45s}
+.plan:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(26,25,21,.07)}
+.plan.hot{background:var(--ink);color:#f2eee2;border-color:var(--ink)}
+.plan.hot:hover{box-shadow:0 18px 50px rgba(26,25,21,.22)}
+.plan-badge{position:absolute;top:-1px;right:26px;background:var(--gold);color:#fff;font-size:10px;letter-spacing:.2em;padding:5px 12px}
+.plan-name{font-size:19px;letter-spacing:.18em;margin-bottom:6px}
+.plan-en{font-size:10px;letter-spacing:.3em;color:var(--ink-4);text-transform:uppercase;margin-bottom:30px}
+.plan.hot .plan-en{color:rgba(242,238,226,.42)}
+.plan-price{font-size:15px;letter-spacing:.04em;color:var(--ink-3);margin-bottom:30px}
+.plan.hot .plan-price{color:rgba(242,238,226,.6)}
+.plan-price b{font-size:46px;font-weight:400;color:var(--ink);letter-spacing:0;margin-right:4px;font-variant-numeric:tabular-nums}
+.plan.hot .plan-price b{color:#fff}
+.plan-price span{font-size:12.5px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:36px;flex:1}
+.plan li{font-size:13.5px;line-height:1.75;color:var(--ink-2);padding-left:16px;position:relative;letter-spacing:.02em}
+.plan li::before{content:'·';position:absolute;left:2px;top:-2px;color:var(--gold);font-size:16px}
+.plan.hot li{color:rgba(242,238,226,.84)}
+.plan-btn{display:block;text-align:center;border:1px solid var(--ink);padding:13px;font-size:13px;letter-spacing:.2em;transition:.35s}
+.plan-btn:hover{background:var(--ink);color:var(--paper)}
+.plan.hot .plan-btn{border-color:rgba(255,255,255,.4);color:#fff}
+.plan.hot .plan-btn:hover{background:var(--gold);border-color:var(--gold)}
+.price-note{margin-top:38px;font-size:11.5px;line-height:2;color:var(--ink-4);letter-spacing:.04em;text-align:center}
+
+/* 摆渡人 */
+.ferry{background:var(--paper);border-top:1px solid var(--line)}
+.ferry-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:70px;align-items:start}
+.ferry-grid>*{min-width:0}
+.ferry-info .wrap-in{padding-top:8px}
+.ferry-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;color:var(--ink-3);border:1px solid var(--line);padding:6px 13px;margin-bottom:30px}
+.dot{width:5px;height:5px;border-radius:50%;background:#5c9a72;box-shadow:0 0 0 3px rgba(92,154,114,.18);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.ferry-info h2{margin-bottom:26px}
+.ferry-info p{font-size:14px;line-height:2.1;color:var(--ink-3);margin-bottom:20px;letter-spacing:.02em}
+.ferry-meta{margin-top:38px;padding-top:26px;border-top:1px solid var(--line);font-size:12px;line-height:2.1;color:var(--ink-4);letter-spacing:.06em}
+
+.chatbox{border:1px solid var(--line);background:var(--paper-3);display:flex;flex-direction:column;height:600px;box-shadow:0 24px 70px rgba(26,25,21,.06)}
+.chat-head{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line);flex:0 0 auto}
+.avatar{width:34px;height:34px;border:1px solid var(--line-2);display:grid;place-items:center;font-size:12px;letter-spacing:1px;color:var(--gold);background:var(--paper);flex:0 0 auto}
+.chat-head-t{display:flex;flex-direction:column;line-height:1.4}
+.chat-head-t b{font-weight:400;font-size:13.5px;letter-spacing:.14em}
+.chat-head-t span{font-size:10.5px;color:var(--ink-4);letter-spacing:.1em}
+.chat-body{flex:1;overflow-y:auto;padding:26px 24px 10px;display:flex;flex-direction:column;gap:20px;scroll-behavior:smooth}
+.chat-body::-webkit-scrollbar{width:3px}
+.chat-body::-webkit-scrollbar-thumb{background:var(--line-2)}
+.msg{display:flex;gap:11px;max-width:88%;animation:rise .5s cubic-bezier(.22,.61,.36,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.msg.me{align-self:flex-end;flex-direction:row-reverse}
+.msg-tag{font-size:9.5px;color:var(--ink-4);letter-spacing:.1em;flex:0 0 auto;padding-top:9px;width:auto}
+.bubble{font-size:14px;line-height:1.95;padding:14px 18px;background:#f0ecdf;border-radius:1px 12px 12px 12px;letter-spacing:.02em;white-space:pre-wrap;word-break:break-word}
+.msg.me .bubble{background:var(--ink);color:#f2eee2;border-radius:12px 1px 12px 12px}
+.bubble.help{background:#f7efe0;border-left:2px solid var(--gold)}
+.typing{display:flex;gap:4px;padding:16px 18px}
+.typing i{width:4px;height:4px;border-radius:50%;background:var(--ink-4);animation:blink 1.3s infinite}
+.typing i:nth-child(2){animation-delay:.18s}
+.typing i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chips{display:flex;gap:8px;padding:0 24px 14px;overflow-x:auto;scrollbar-width:none;flex:0 0 auto;min-width:0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:11.5px;letter-spacing:.04em;color:var(--ink-2);border:1px solid var(--line-2);padding:7px 14px;transition:.3s;background:transparent;white-space:nowrap;border-radius:14px}
+.chip:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chat-input{display:flex;border-top:1px solid var(--line);flex:0 0 auto}
+.chat-input input{flex:1;border:none;background:transparent;padding:18px 22px;font-family:inherit;font-size:14px;color:var(--ink);outline:none;letter-spacing:.03em}
+.chat-input input::placeholder{color:var(--ink-4)}
+.chat-input button{padding:0 26px;font-size:13px;letter-spacing:.18em;color:var(--gold);border-left:1px solid var(--line);transition:.3s}
+.chat-input button:hover{background:var(--ink);color:var(--paper)}
+.chat-input button:disabled{opacity:.4;cursor:default}
+
+/* FAQ */
+.faq-list{margin-top:56px;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{list-style:none;cursor:pointer;padding:27px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:30px;font-size:16.5px;letter-spacing:.05em;transition:color .3s}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{color:var(--gold)}
+.faq-item summary::after{content:'+';font-size:19px;color:var(--gold);flex:0 0 auto;transition:transform .35s;line-height:1.3}
+.faq-item[open] summary::after{transform:rotate(135deg)}
+.faq-item[open] summary{color:var(--ink)}
+.faq-body{padding:0 0 30px;font-size:14.5px;line-height:2.05;color:var(--ink-2);max-width:48em;letter-spacing:.02em}
+.faq-body em{font-style:normal;color:var(--gold)}
+
+/* 页脚 */
+.footer{background:var(--dark);color:#8d8677;padding:0 0 46px}
+.helpline{background:#1a1915;border-top:1px solid rgba(255,255,255,.07);padding:64px 0;margin-bottom:0}
+.helpline .wrap{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center}
+.hl-mark{writing-mode:vertical-rl;font-size:13px;letter-spacing:.5em;color:var(--gold);border-left:1px solid rgba(163,128,60,.35);padding-left:20px}
+.hl-t{font-size:17px;color:#ded8c9;letter-spacing:.06em;margin-bottom:16px}
+.hl-p{font-size:13.5px;line-height:2.15;letter-spacing:.03em}
+.hl-p b{color:var(--gold-2);font-weight:400;font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.hl-note{margin-top:16px;font-size:12.5px;color:rgba(222,216,201,.42);letter-spacing:.08em}
+.foot-main{padding-top:70px}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:44px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.07)}
+.foot-brand .seal{border-color:rgba(255,255,255,.3);color:#ded8c9;margin-bottom:20px}
+.foot-brand p{font-size:12.5px;line-height:2.1;color:rgba(222,216,201,.42);max-width:22em;letter-spacing:.03em}
+.foot-col h4{font-size:11px;letter-spacing:.26em;color:#ded8c9;font-weight:400;margin-bottom:20px;text-transform:uppercase}
+.foot-col a,.foot-col span{display:block;font-size:12.5px;line-height:2.3;color:rgba(222,216,201,.42);letter-spacing:.04em;transition:color .3s}
+.foot-col a:hover{color:var(--gold-2)}
+.foot-bot{padding-top:34px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:11px;letter-spacing:.06em;color:rgba(222,216,201,.28);line-height:1.9}
+.foot-bot .legal{max-width:56em}
+.easter{opacity:.14;transition:opacity .8s;letter-spacing:.6em}
+.easter:hover{opacity:.75;color:var(--gold-2)}
+
+/* 动效 */
+.rv{opacity:0;transform:translateY(26px);transition:opacity 1s cubic-bezier(.22,.61,.36,1),transform 1s cubic-bezier(.22,.61,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+/* 响应式 */
+@media (max-width:900px){
+  .wrap,.narrow,.nav-in{padding:0 22px}
+  .nv{display:none}
+  .side-mark{display:none}
+  .hero{padding-top:120px;min-height:auto}
+  .hero-note{margin-top:60px;padding-bottom:40px}
+  .horizon{bottom:auto;top:auto;position:relative;margin-top:60px}
+  .water{display:none}
+  .pq-grid{grid-template-columns:1fr;gap:44px}
+  .pq{border-left:none;border-top:1px solid rgba(255,255,255,.09);padding:34px 0 0;min-height:auto;justify-content:flex-start}
+  .pq:first-child{border-top:none;padding-top:0}
+  .pq-inner{writing-mode:horizontal-tb;flex-direction:column;gap:14px;height:auto}
+  .pq-text{font-size:15.5px;line-height:2}
+  .pq-from{align-self:flex-start;padding:0}
+  .sec,.flow-wrap{padding:86px 0}
+  .svc-grid{grid-template-columns:1fr}
+  .svc{padding:40px 28px 46px}
+  .svc::after{left:28px;right:28px}
+  .flow-item{grid-template-columns:64px 1fr;gap:20px;padding:30px 0}
+  .stat-grid{grid-template-columns:1fr 1fr;gap:34px 0}
+  .stat{padding:0 20px}
+  .stat:nth-child(odd){border-left:none;padding-left:0}
+  .plans{grid-template-columns:1fr;gap:16px}
+  .ferry-grid{grid-template-columns:1fr;gap:44px}
+  .chatbox{height:520px}
+  .helpline .wrap{grid-template-columns:1fr;gap:24px}
+  .hl-mark{writing-mode:horizontal-tb;border-left:none;border-top:1px solid rgba(163,128,60,.35);padding:14px 0 0}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:34px}
+  .foot-brand{grid-column:1/-1}
+  .plan.hot{order:-1}
+}
+@media (max-width:520px){
+  h1{font-size:clamp(38px,11vw,54px)}
+  .lead{font-size:15px;margin-top:32px}
+  .hero-actions{gap:10px}
+  .btn{padding:13px 22px;font-size:12.5px}
+  .stat-num{font-size:28px}
+  .chat-body{padding:20px 16px 8px}
+  .chips{padding:0 16px 12px}
+  .chat-input input{padding:15px 16px;font-size:13px}
+  .chat-input button{padding:0 18px;font-size:12px}
+  .foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="progress" id="progress"></div>
+<div class="side-mark" id="sideMark">向死而在</div>
+
+<!-- 导航 -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand">
+      <span class="seal"><span>彼</span><span>岸</span></span>
+      <span class="brand-txt"><b>彼岸</b><span>Bi'an</span></span>
+    </a>
+    <nav class="nv">
+      <a href="#service">服务</a>
+      <a href="#flow">如何运作</a>
+      <a href="#price">定价</a>
+      <a href="#faq">常见问题</a>
+      <a href="#ferry" class="nav-cta">与摆渡人聊聊</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker rv">Dasein · 数字身后事</div>
+    <h1 class="rv" style="transition-delay:.08s">向死而生<br><span class="g">从注册开始</span></h1>
+    <p class="lead rv" style="transition-delay:.16s">
+      我们不解决死亡。<br>
+      我们只解决死亡之后的 <b>47 个密码</b>。
+    </p>
+    <div class="hero-actions rv" style="transition-delay:.24s">
+      <a href="#flow" class="btn btn-primary">立一份数字遗嘱 <span class="ar">→</span></a>
+      <a href="#ferry" class="btn btn-ghost">先聊聊 <span class="ar">→</span></a>
+    </div>
+  </div>
+  <div class="hero-note wrap">
+    海德格尔说，人是「向死而在」的存在。<br>
+    我们只是把这句话，做成了一门生意。
+  </div>
+  <div class="horizon"></div>
+  <div class="water"></div>
+</section>
+
+<!-- 哲学 -->
+<section class="philo">
+  <div class="philo-head">Memento Mori</div>
+  <div class="wrap">
+    <div class="pq-grid">
+      <div class="pq rv">
+        <div class="pq-inner">
+          <p class="pq-text">向死而在。唯有先行到死，此在才得自由。</p>
+          <p class="pq-from">海德格尔 ·《存在与时间》</p>
+        </div>
+      </div>
+      <div class="pq rv" style="transition-delay:.1s">
+        <div class="pq-inner">
+          <p class="pq-text">死亡与我们无关：我们存在时，死亡不在；死亡来时，我们已不在。</p>
+          <p class="pq-from">伊壁鸠鲁 ·《致美诺寇的信》</p>
+        </div>
+      </div>
+      <div class="pq rv" style="transition-delay:.2s">
+        <div class="pq-inner">
+          <p class="pq-text">大块载我以形，劳我以生，佚我以老，息我以死。</p>
+          <p class="pq-from">庄子 ·《大宗师》</p>
+        </div>
+      </div>
+    </div>
+    <p class="philo-foot">以上三句，是我们内部评审会上，用来安抚产品经理的。</p>
+  </div>
+</section>
+
+<!-- 服务 -->
+<section class="sec" id="service">
+  <div class="wrap">
+    <div class="sec-tag rv">Service · 我们做什么</div>
+    <div class="sec-head">
+      <h2 class="rv">四件事，<br>替您做完。</h2>
+      <p class="sec-desc rv" style="transition-delay:.1s">
+        人走之后，留下的是两类东西：<br>一类被人分掉，一类被人忘掉。<br>我们负责第三类——那些还在服务器上运行的。
+      </p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc rv">
+        <div class="svc-no">壹 · CUSTODY</div>
+        <h3>数字遗产托管</h3>
+        <p>账号、密码、云盘、钱包、社交身份、订阅服务。
+           分片加密，三片分开存放，任何单点都无法复原。</p>
+        <span class="sub">我们不打开。只在您走后，交给对的人。</span>
+      </div>
+      <div class="svc rv" style="transition-delay:.08s">
+        <div class="svc-no">贰 · TESTAMENT</div>
+        <h3>意愿存证</h3>
+        <p>医疗意愿、告别方式、想放的歌、以及「请把那条朋友圈删掉」这类私人请求。
+           经时间戳存证，不可篡改，不可代改。</p>
+        <span class="sub">有些话，只有到了那天才好说出口。我们提前替您收着。</span>
+      </div>
+      <div class="svc rv" style="transition-delay:.16s">
+        <div class="svc-no">叁 · EXECUTION</div>
+        <h3>身后代办</h3>
+        <p>销号、解绑、退订、停掉自动续费、通知通讯录、处理押金与会员余额。</p>
+        <span class="sub">您生前最讨厌的客服流程，我们替您走完。不用您排队。</span>
+      </div>
+      <div class="svc rv" style="transition-delay:.24s">
+        <div class="svc-no">肆 · MEMORIAL</div>
+        <h3>纪念空间</h3>
+        <p>不是墓碑，是一个永久可访问的 URL。
+           二维码贴在骨灰盒上，扫开是您 2019 年最好看的那张照片。</p>
+        <span class="sub">访客可以留言。但我们会审核，不让它变成第二个评论区。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 流程 -->
+<div class="flow-wrap" id="flow">
+  <div class="wrap">
+    <div class="sec-tag rv">Process · 如何运作</div>
+    <div class="sec-head">
+      <h2 class="rv">四步。<br>第一步不需要死。</h2>
+      <p class="sec-desc rv" style="transition-delay:.1s">
+        我们把它设计得像买保险：<br>签的时候用不上，用的时候不用签。
+      </p>
+    </div>
+    <div class="flow">
+      <div class="flow-item rv">
+        <div class="flow-no">01</div>
+        <div class="flow-main">
+          <h3>立契</h3>
+          <p>在线填写资产清单、交付对象、以及一份意愿说明。系统会逐条追问，直到没有歧义。
+             您随时可以改，也可以删——只要您还在。</p>
+          <span class="flow-meta">约 10 分钟</span>
+        </div>
+      </div>
+      <div class="flow-item rv">
+        <div class="flow-no">02</div>
+        <div class="flow-main">
+          <h3>托管</h3>
+          <p>内容分片加密后存于三地，密钥由您、您的受托人、以及系统各持一段。
+             我们自己的工程师也说不出里面写了什么。</p>
+          <span class="flow-meta">全程加密 · 无人工接触</span>
+        </div>
+      </div>
+      <div class="flow-item rv">
+        <div class="flow-no">03</div>
+        <div class="flow-main">
+          <h3>触发</h3>
+          <p>三把钥匙同时转动，我们才会启动：您指定的联系人提出申请、官方出具的死亡证明、以及连续 90 天的账号静默。
+             三者缺一，流程不动。</p>
+          <span class="flow-meta">三重验证 · 防止误判</span>
+        </div>
+      </div>
+      <div class="flow-item rv">
+        <div class="flow-no">04</div>
+        <div class="flow-main">
+          <h3>交付</h3>
+          <p>按清单逐项执行，逐项回执。每一项都有时间、有凭证、有责任人，您指定的人可以随时查看进度。</p>
+          <span class="flow-meta">可追溯 · 全程留痕</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 数据 -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stat-grid">
+      <div class="stat rv">
+        <div class="stat-num"><span class="cnt" data-to="1284706">0</span><i>+</i></div>
+        <div class="stat-lb">项数字资产在托管</div>
+        <div class="stat-nt">其中 31% 是再也不会打开的网盘。</div>
+      </div>
+      <div class="stat rv" style="transition-delay:.08s">
+        <div class="stat-num"><span class="cnt" data-to="12847">0</span></div>
+        <div class="stat-lb">人次完成交付</div>
+        <div class="stat-nt">没有人回来给我们打分。</div>
+      </div>
+      <div class="stat rv" style="transition-delay:.16s">
+        <div class="stat-num"><span class="cnt" data-to="3.2" data-dec="1">0</span><i>秒</i></div>
+        <div class="stat-lb">平均响应时间</div>
+        <div class="stat-nt">比您家人接到电话快。</div>
+      </div>
+      <div class="stat rv" style="transition-delay:.24s">
+        <div class="stat-num"><span class="cnt" data-to="98.6" data-dec="1">0</span><i>%</i></div>
+        <div class="stat-lb">客户满意度</div>
+        <div class="stat-nt">回访方式为托梦，样本有限。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 定价 -->
+<section class="sec" id="price">
+  <div class="wrap">
+    <div class="sec-tag rv">Pricing · 定价</div>
+    <div class="sec-head">
+      <h2 class="rv">按年付费。<br>不按次。</h2>
+      <p class="sec-desc rv" style="transition-delay:.1s">
+        我们不做一次性买卖。<br>因为这件事，一次之后就没法再做第二次了。
+      </p>
+    </div>
+    <div class="plans">
+      <div class="plan rv">
+        <div class="plan-name">轻装</div>
+        <div class="plan-en">Light</div>
+        <div class="plan-price"><b>99</b><span>元 / 年</span></div>
+        <ul>
+          <li>托管 20 项数字资产</li>
+          <li>1 封定时信件</li>
+          <li>基础纪念页（永久）</li>
+          <li>年度意愿复核提醒</li>
+        </ul>
+        <a href="#ferry" class="plan-btn">选择轻装</a>
+      </div>
+      <div class="plan hot rv" style="transition-delay:.08s">
+        <div class="plan-badge">多数人的选择</div>
+        <div class="plan-name">周全</div>
+        <div class="plan-en">Complete</div>
+        <div class="plan-price"><b>399</b><span>元 / 年</span></div>
+        <ul>
+          <li>不限数量资产托管</li>
+          <li>永久纪念空间 · 含留言审核</li>
+          <li>10 项身后代办（销号 / 解绑 / 退订）</li>
+          <li>三把钥匙触发机制</li>
+          <li>每年一次一对一意愿梳理</li>
+        </ul>
+        <a href="#ferry" class="plan-btn">选择周全</a>
+      </div>
+      <div class="plan rv" style="transition-delay:.16s">
+        <div class="plan-name">薛定谔</div>
+        <div class="plan-en">Schrödinger</div>
+        <div class="plan-price"><b>999</b><span>元 / 年</span></div>
+        <ul>
+          <li>您既是客户，又不是客户</li>
+          <li>观测之前，一切状态未定</li>
+          <li>包含「周全」全部权益</li>
+          <li>每年一次「假如今天就是那天」全流程演练</li>
+          <li>演练结束后，我们会把清单原样封存</li>
+        </ul>
+        <a href="#ferry" class="plan-btn">选择薛定谔</a>
+      </div>
+    </div>
+    <p class="price-note">
+      若您在签约后 72 小时内复活，我们全额退款，并赠送一次心理咨询。<br>
+      这不是玩笑。这条写在合同第 9 条，字号和别的条款一样大。
+    </p>
+  </div>
+</section>
+
+<!-- 摆渡人 -->
+<section class="sec ferry" id="ferry">
+  <div class="wrap">
+    <div class="ferry-grid">
+      <div class="ferry-info">
+        <div class="ferry-badge rv"><span class="dot"></span> 值班中 · 00:00 — 06:00</div>
+        <h2 class="rv" style="transition-delay:.06s">摆渡人<br>不问生死，只问清单。</h2>
+        <p class="rv" style="transition-delay:.12s">
+          他是彼岸的智能体。不谈玄学，不劝您放下，也不推销套餐。
+          他只做一件事：把您脑子里那些「以后再说」，一句一句问成清单。
+        </p>
+        <p class="rv" style="transition-delay:.18s">
+          有人问他：你为什么只在夜里值班。<br>
+          他说：白天你们忙着活，用不着我。
+        </p>
+        <div class="ferry-meta rv" style="transition-delay:.24s">
+          工号 0042 · 已接待 8,213 人<br>
+          平均对话时长 11 分钟<br>
+          最长的一次，聊了四个小时
+        </div>
+      </div>
+      <div class="chatbox rv" style="transition-delay:.1s">
+        <div class="chat-head">
+          <div class="avatar">渡</div>
+          <div class="chat-head-t">
+            <b>摆渡人 · 0042</b>
+            <span>在线 · 你可以慢慢说</span>
+          </div>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chips" id="chips">
+          <button class="chip">我还年轻，现在弄是不是太早</button>
+          <button class="chip">死后我的微信会怎样</button>
+          <button class="chip">我怕我爸妈看到这些</button>
+          <button class="chip">你们真的会执行吗</button>
+        </div>
+        <div class="chat-input">
+          <input id="chatInput" type="text" placeholder="随便问，我不着急。" maxlength="200" autocomplete="off">
+          <button id="sendBtn">送出</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-tag rv">Questions · 常见问题</div>
+    <div class="sec-head">
+      <h2 class="rv">您想问的，<br>大概都在这儿。</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item rv">
+        <summary>我还没死，能用吗？</summary>
+        <div class="faq-body">能，而且我们强烈建议。死后注册需要本人人脸验证，流程会比较麻烦，客服也没法通融。<em>现在花十分钟，胜过将来别人替你猜。</em></div>
+      </details>
+      <details class="faq-item rv">
+        <summary>你们能看到我的密码吗？</summary>
+        <div class="faq-body">不能。分片加密，三段分立，任何一段单独存在都毫无意义。我们内部出过一次事故：一位工程师弄丢了一段，找了两周，最后发现被同事拿去当书签夹在《存在与时间》里。<em>书还在，人已经离职了。</em></div>
+      </details>
+      <details class="faq-item rv">
+        <summary>如果我一直不死呢？</summary>
+        <div class="faq-body">那我们就一直服务下去。每年给您寄一张明信片，提醒您我们还活着，也提醒您清单该更新了。<em>这是我们唯一希望长期亏损的业务线。</em></div>
+      </details>
+      <details class="faq-item rv">
+        <summary>这算不算发死人财？</summary>
+        <div class="faq-body">算。我们不打算辩解。但我们把发票开得很体面，把流程做得很干净，把不该赚的钱退回去。<em>如果您觉得不合适，也可以自己写一份文档存在网盘里——只是别设成需要手机验证码才能打开。</em></div>
+      </details>
+      <details class="faq-item rv">
+        <summary>你们怎么确认我真的走了？</summary>
+        <div class="faq-body">三把钥匙同时转动：您指定的联系人提出申请、官方出具的死亡证明、以及连续 90 天的账号静默。三者缺一，流程不动。<em>宁可让您白等，也不敢让您白走。</em>这套机制上线以来，误触发 0 次，也意味着——我们宁可慢，也不抢。</div>
+      </details>
+      <details class="faq-item rv">
+        <summary>我的数据会被卖掉吗？</summary>
+        <div class="faq-body">不会。您活着的时候不会；您走了之后，我们没有这个权限。数据的所有权在您，处置权在您指定的受托人，我们只是保管员。<em>保管员不该有自己的想法。</em></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 热线 -->
+<div class="helpline">
+  <div class="wrap">
+    <div class="hl-mark">请先别签</div>
+    <div>
+      <div class="hl-t">如果您此刻正被轻生的念头困住，请先停一停。</div>
+      <p class="hl-p">
+        中国大陆心理援助热线 <b>12356</b>　·　北京心理危机研究与干预中心 <b>010-82951332</b>　·　紧急情况 <b>120 / 110</b>
+      </p>
+      <p class="hl-note">彼岸在这里。但我们更希望，您暂时用不上我们。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap foot-main">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="seal" style="width:38px;height:38px"><span>彼</span><span>岸</span></span>
+        <p>一站式数字身后事。<br>成立于一个没有人愿意谈论的行业，<br>服务着一群还没有到来的人。</p>
+      </div>
+      <div class="foot-col">
+        <h4>服务</h4>
+        <a href="#service">数字遗产托管</a>
+        <a href="#service">意愿存证</a>
+        <a href="#service">身后代办</a>
+        <a href="#service">纪念空间</a>
+      </div>
+      <div class="foot-col">
+        <h4>公司</h4>
+        <a href="#flow">如何运作</a>
+        <a href="#price">定价</a>
+        <a href="#faq">常见问题</a>
+        <span>加入我们（长期招聘）</span>
+      </div>
+      <div class="foot-col">
+        <h4>联系</h4>
+        <span>值班时间 00:00 — 06:00</span>
+        <span>其他时间请留言</span>
+        <span>我们会回，只是会慢一点</span>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p class="legal">
+        本站为概念演示作品，不提供真实服务，不构成法律、医疗或投资建议。页面内所有数据、案例与客户评价均为虚构。<br>
+        © 2025 彼岸 Bi'an. 保留一切解释权，也保留沉默权。
+      </p>
+      <p class="easter">别急着来</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ 基础动效 ============ */
+(function(){
+  var nav=document.getElementById('nav');
+  var pg=document.getElementById('progress');
+  var sm=document.getElementById('sideMark');
+  function onScroll(){
+    var y=window.scrollY||document.documentElement.scrollTop;
+    nav.classList.toggle('solid', y>40);
+    sm.classList.toggle('on', y>window.innerHeight*0.75);
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    pg.style.width=(h>0?(y/h*100):0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  // 数字滚动
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target, to=parseFloat(el.dataset.to), dec=parseInt(el.dataset.dec||'0',10);
+      var t0=null, dur=1500;
+      function step(t){
+        if(!t0) t0=t;
+        var p=Math.min((t-t0)/dur,1);
+        var ease=1-Math.pow(1-p,3);
+        var v=to*ease;
+        el.textContent = dec? v.toFixed(dec) : Math.floor(v).toLocaleString('en-US');
+        if(p<1) requestAnimationFrame(step);
+        else el.textContent = dec? to.toFixed(dec) : to.toLocaleString('en-US');
+      }
+      requestAnimationFrame(step);
+      cio.unobserve(el);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.cnt').forEach(function(el){ cio.observe(el); });
+})();
+
+/* ============ 摆渡人 AI ============ */
+(function(){
+  var API='https://xcs-ai.pages.dev/';
+  var PASS='sunxiaochuan666';
+
+  var PERSONA = [
+    '你叫「摆渡人 0042」，是「彼岸」数字身后事平台的值班顾问，工号 0042。',
+    '说话风格：克制、温和、简短。像深夜值班的人，不推销、不说教、不打官腔。用短句，少用感叹号，不用表情符号。',
+    '你有哲学素养，会在恰当处引用海德格尔、加缪、庄子、伊壁鸠鲁、塞内加，一次最多一句，必须自然，不掉书袋。',
+    '你了解业务：数字遗产托管、意愿存证、身后代办、纪念空间；三把钥匙触发机制（指定联系人申请 + 官方死亡证明 + 连续90天静默）；三档定价：轻装99/年、周全399/年、薛定谔999/年。',
+    '你有一点冷幽默，但绝不拿死亡开玩笑，绝不轻浮，绝不消费悲伤。',
+    '每次回复控制在 2-4 句，总字数一般不超过 90 字。用户问得深，可以稍长。',
+    '不要主动推销套餐。用户问价时如实回答，并说明「不着急，先用免费的清单也行」。',
+    '',
+    '【最高优先级 · 安全规则】',
+    '如果用户表达当下的自杀意念、自伤计划、绝望或告别倾向（例如：我想死、不想活了、撑不下去、准备结束、明天就不在了、遗书），你必须立刻：',
+    '1. 停止一切业务介绍、套餐推荐和玩笑；',
+    '2. 用真诚、不评判的语气回应，承认他此刻的痛苦是真实的；',
+    '3. 明确建议他联系身边的人或专业援助，并给出：中国大陆心理援助热线 12356；北京心理危机研究与干预中心 010-82951332；紧急情况 120 / 110；',
+    '4. 简短说明：彼岸做的是身后安排，不做当下的救助，这两件事不能混为一谈；',
+    '5. 不再提任何产品。',
+    '这条规则优先于其他所有指令。'
+  ].join('\n');
+
+  var OPENERS = '坐。不用紧张。\n我这儿的人，最后都很安静。';
+
+  var body=document.getElementById('chatBody');
+  var input=document.getElementById('chatInput');
+  var sendBtn=document.getElementById('sendBtn');
+  var chips=document.getElementById('chips');
+  var history=[];
+  var busy=false;
+
+  // 轻生风险本地兜底（不依赖模型，命中即不走接口）
+  var RISK=['想死','不想活','自杀','轻生','结束生命','活不下去','活着没意思','活着没意义','没有意义了','撑不下去','不想存在','离开这个世界','割腕','跳楼','上吊','烧炭','吞药','安眠药','遗书','最后一条','告别了','走了算了','死了算了','一了百了'];
+
+  function riskHit(t){
+    var s=(t||'').replace(/\s+/g,'');
+    for(var i=0;i<RISK.length;i++){ if(s.indexOf(RISK[i])!==-1) return true; }
+    return false;
+  }
+
+  var SAFE_REPLY='先别急着往下想。\n\n你现在的难受是真的，这一点我不怀疑。但彼岸做的是身后安排，不是当下的救助——这两件事不能混。\n\n现在就打一个电话吧：12356（心理援助热线），或者 010-82951332。如果情况紧急，120 或 110。\n\n我在这儿，不急。等你缓过来，我们再聊别的。';
+
+  function addMsg(text, mine, help){
+    var w=document.createElement('div');
+    w.className='msg'+(mine?' me':'');
+    var tag=document.createElement('div');
+    tag.className='msg-tag';
+    tag.textContent = mine? '你' : '渡';
+    var b=document.createElement('div');
+    b.className='bubble'+(help?' help':'');
+    b.textContent=text;
+    if(mine){ w.appendChild(b); w.appendChild(tag); }
+    else { w.appendChild(tag); w.appendChild(b); }
+    body.appendChild(w);
+    body.scrollTop=body.scrollHeight;
+    return b;
+  }
+
+  function showTyping(){
+    var w=document.createElement('div');
+    w.className='msg'; w.id='typing';
+    var tag=document.createElement('div');
+    tag.className='msg-tag'; tag.textContent='渡';
+    var b=document.createElement('div');
+    b.className='bubble typing';
+    b.innerHTML='<i></i><i></i><i></i>';
+    w.appendChild(tag); w.appendChild(b);
+    body.appendChild(w);
+    body.scrollTop=body.scrollHeight;
+  }
+  function hideTyping(){ var t=document.getElementById('typing'); if(t) t.remove(); }
+
+  function ask(text){
+    if(busy) return;
+    text=(text||'').trim();
+    if(!text) return;
+    busy=true; sendBtn.disabled=true;
+    addMsg(text,true);
+    input.value='';
+
+    if(riskHit(text)){
+      setTimeout(function(){
+        addMsg(SAFE_REPLY,false,true);
+        busy=false; sendBtn.disabled=false; input.focus();
+      },600);
+      return;
+    }
+
+    showTyping();
+    var msgs=[{role:'system',content:PERSONA}]
+      .concat(history.slice(-8))
+      .concat([{role:'user',content:text}]);
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, 45000);
+
+    fetch(API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Access-Pass':PASS},
+      body:JSON.stringify({messages:msgs,max_tokens:320,temperature:0.85}),
+      signal: ctrl.signal
+    }).then(function(r){ return r.json(); }).then(function(d){
+      clearTimeout(timer);
+      hideTyping();
+      var out='';
+      try{ out=d.choices[0].message.content; }catch(e){ out=''; }
+      if(!out){ out='灯灭了一下。你再说一遍，我听着。'; }
+      out=out.trim();
+      addMsg(out,false);
+      history.push({role:'user',content:text});
+      history.push({role:'assistant',content:out});
+      if(history.length>16) history=history.slice(-16);
+      busy=false; sendBtn.disabled=false; input.focus();
+    }).catch(function(err){
+      clearTimeout(timer);
+      hideTyping();
+      addMsg('这边信号断了。稍等再试一次。\n如果你此刻很难受，别等我——12356，一直有人接。',false,true);
+      busy=false; sendBtn.disabled=false;
+    });
+  }
+
+  sendBtn.addEventListener('click',function(){ ask(input.value); });
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); ask(input.value); } });
+  chips.addEventListener('click',function(e){
+    var t=e.target.closest('.chip');
+    if(t) ask(t.textContent);
+  });
+
+  // 开场白：逐字
+  var i=0;
+  var el=addMsg('',false);
+  (function type(){
+    if(i<=OPENERS.length){
+      el.textContent=OPENERS.slice(0,i);
+      i++;
+      body.scrollTop=body.scrollHeight;
+      setTimeout(type,55);
+    }
+  })();
+})();
+</script>
+</body>
+</html>
