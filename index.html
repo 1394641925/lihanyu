@@ -133,6 +133,120 @@ h1 em{font-style:normal;color:var(--brand);position:relative;white-space:nowrap}
 .keys-note{margin-top:24px;font-size:12.5px;line-height:1.95;color:var(--ink-3)}
 .keys-note b{color:var(--brand);font-weight:700}
 
+/* 交易过程 */
+.deal-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:34px;align-items:start}
+.receipt{background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px 30px 24px}
+.rc-hd{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.rc-hd b{font-size:15px;font-weight:600;letter-spacing:.02em}
+.rc-hd span{font-size:11px;color:var(--ink-4);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.rc-row{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.rc-row span{color:var(--ink-4);flex:0 0 auto}
+.rc-row b{font-weight:500;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
+.rc-row b.neg{color:#4c9a6f}
+.rc-row.total{border-bottom:none;padding-top:15px}
+.rc-row.total b{font-size:20px;font-weight:700;color:var(--brand)}
+.rc-sub{margin-top:6px;font-size:11px;color:var(--ink-4);line-height:1.7}
+.rc-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.rc-foot span{display:block;font-size:11px;color:var(--ink-4)}
+.rc-foot b{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-top:4px}
+.rc-foot b.ok{color:#4c9a6f}
+.rc-act{display:flex;gap:10px;margin-top:22px}
+.btn.sm{padding:9px 16px;font-size:12.5px}
+.deal-side{display:flex;flex-direction:column;gap:18px}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{position:relative;padding:0 0 22px 26px;border-left:1px solid var(--line);margin-left:5px}
+.tl li:last-child{border-left-color:transparent;padding-bottom:0}
+.tl li::before{content:'';position:absolute;left:-4.5px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--line-2);border:2px solid #fff;box-shadow:0 0 0 1px var(--line-2)}
+.tl li.done::before{background:#4c9a6f;box-shadow:0 0 0 1px #4c9a6f}
+.tl li.active::before{background:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tl-t{display:block;font-size:11px;color:var(--ink-4);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.tl b{display:block;font-size:14.5px;font-weight:600;margin-top:3px;color:var(--ink)}
+.tl em{font-style:normal;display:block;font-size:12.5px;color:var(--ink-4);margin-top:3px;line-height:1.7}
+.tl li:not(.done):not(.active) b{color:var(--ink-4);font-weight:500}
+.deal-note{font-size:12.5px;line-height:1.9;color:var(--ink-3);background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.deal-note b{color:var(--ink-2);font-weight:600}
+
+/* 结账弹窗 */
+.ck-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:1300;opacity:0;pointer-events:none;transition:opacity .4s}
+.ck-mask.on{opacity:1;pointer-events:auto}
+.ck{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);width:min(620px,92vw);max-height:88vh;background:#fff;border-radius:12px;z-index:1301;
+  display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:opacity .4s,transform .4s cubic-bezier(.22,.61,.36,1)}
+.ck.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.ck-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--line);flex:0 0 auto}
+.ck-steps{display:flex;gap:18px;flex-wrap:wrap}
+.ck-steps span{font-size:11.5px;color:var(--ink-4);letter-spacing:.08em;position:relative}
+.ck-steps span.on{color:var(--brand);font-weight:600}
+.ck-steps span.done{color:var(--ink-3)}
+.ck-x{width:30px;height:30px;display:grid;place-items:center;font-size:15px;color:var(--ink-3);transition:.3s}
+.ck-x:hover{color:var(--ink);transform:rotate(90deg)}
+.ck-body{padding:24px;overflow-y:auto;flex:1 1 auto}
+.ck-ft{flex:0 0 auto;padding:16px 24px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg-2);flex-wrap:wrap}
+.ck-ft .ft-l{font-size:12px;color:var(--ink-4)}
+.ck-ft .ft-r{display:flex;gap:10px;align-items:center;flex:0 0 auto}
+.ck-ft .ft-l{flex:1 1 200px}
+.btn{white-space:nowrap}
+.ck-plans{display:grid;gap:10px}
+.ck-plan{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.25s}
+.ck-plan:hover{border-color:var(--line-2)}
+.ck-plan.on{border-color:var(--brand);background:#fbfcfe;box-shadow:0 0 0 1px var(--brand)}
+.ck-plan .rp{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2);flex:0 0 auto;position:relative}
+.ck-plan.on .rp{border-color:var(--brand)}
+.ck-plan.on .rp::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--brand)}
+.ck-plan .cp-n{flex:1 1 auto}
+.ck-plan .cp-n b{font-size:14px;font-weight:600}
+.ck-plan .cp-n em{font-style:normal;display:block;font-size:11.5px;color:var(--ink-4);margin-top:2px}
+.ck-plan .cp-p{font-size:16px;font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums}
+.ck-plan .cp-p span{font-size:11px;color:var(--ink-4);font-weight:400;margin-left:3px}
+.ck-plan .tag-hot{font-size:10px;color:#fff;background:var(--accent);border-radius:3px;padding:1px 6px;margin-left:8px;vertical-align:2px}
+.f-row{margin-bottom:16px}
+.f-row label{display:block;font-size:12px;color:var(--ink-3);margin-bottom:7px}
+.f-row label i{font-style:normal;color:var(--accent)}
+.f-in{width:100%;padding:11px 13px;border:1px solid var(--line-2);border-radius:8px;font-size:14px;color:var(--ink);background:#fff;transition:.25s;font-family:inherit}
+.f-in:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(20,33,61,.07)}
+.f-in::placeholder{color:var(--ink-4)}
+.f-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-seg{display:flex;gap:8px}
+.f-seg button{flex:1;border:1px solid var(--line-2);border-radius:8px;padding:10px;font-size:13px;color:var(--ink-2);transition:.25s}
+.f-seg button.on{border-color:var(--brand);color:var(--brand);background:#fbfcfe;font-weight:600}
+.f-err{font-size:12px;color:#c0483c;margin-top:10px;display:none}
+.f-err.on{display:block}
+.pay-list{display:grid;gap:10px;margin-bottom:18px}
+.pay-op{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:13px 16px;cursor:pointer;transition:.25s;font-size:14px}
+.pay-op:hover{border-color:var(--line-2)}
+.pay-op.on{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand)}
+.pay-op .pi{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line-2);position:relative;flex:0 0 auto}
+.pay-op.on .pi{border-color:var(--brand)}
+.pay-op.on .pi::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--brand)}
+.pay-op em{font-style:normal;margin-left:auto;font-size:11.5px;color:var(--ink-4)}
+.pay-box{display:flex;gap:22px;align-items:center;border:1px dashed var(--line-2);border-radius:10px;padding:18px;background:var(--bg-2)}
+.qr{width:118px;height:118px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px;flex:0 0 auto}
+.qr canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.pay-tip{flex:1 1 auto;min-width:0}
+.pay-tip b{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.pay-tip p{font-size:12.5px;color:var(--ink-3);line-height:1.8}
+.pay-tip .cd{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
+.ck-done{text-align:center;padding:8px 0 4px}
+.ck-done .ok{width:56px;height:56px;border-radius:50%;background:#eaf5ee;color:#4c9a6f;display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
+.ck-done h3{font-size:19px;font-weight:700;letter-spacing:.01em}
+.ck-done p{font-size:13px;color:var(--ink-3);margin-top:8px;line-height:1.8}
+.ck-sum{margin-top:20px;border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:left}
+.ck-sum .r{display:flex;justify-content:space-between;gap:16px;font-size:12.5px;padding:6px 0;color:var(--ink-3)}
+.ck-sum .r b{color:var(--ink-2);font-weight:500;font-variant-numeric:tabular-nums}
+.ck-sum .r.tot{border-top:1px dashed var(--line);margin-top:6px;padding-top:11px}
+.ck-sum .r.tot b{font-size:18px;font-weight:700;color:var(--brand)}
+.ck-next{margin-top:18px;text-align:left;border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:var(--bg-2)}
+.ck-next h4{font-size:12px;color:var(--ink-4);font-weight:600;letter-spacing:.1em;margin-bottom:9px}
+.ck-next ol{list-style:none;margin:0;padding:0}
+.ck-next li{font-size:12.5px;color:var(--ink-2);padding:5px 0;display:flex;gap:9px;line-height:1.7}
+.ck-next li span{color:var(--accent);font-variant-numeric:tabular-nums}
+.ck-lk{margin-top:16px;font-size:12.5px;color:var(--ink-4);text-align:center}
+.ck-lk a{color:var(--brand);border-bottom:1px solid var(--line-2)}
+.lk-form{display:flex;gap:10px}
+.lk-form .f-in{flex:1 1 auto}
+.ck-lookup{margin-top:16px;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.ck-lookup .r{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;color:var(--ink-3)}
+.ck-lookup .r b{color:var(--ink-2);font-weight:500;font-variant-numeric:tabular-nums}
+
 /* 摆渡人照片 */
 .ferry-photo{margin-top:24px}
 .ferry-photo img{width:100%;height:185px;object-fit:cover;border-radius:10px;display:block;filter:saturate(.55) brightness(.92)}
@@ -425,6 +539,9 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   .foot-grid{grid-template-columns:1fr}
   .flow-end{height:200px}
   .drawer-tab{padding:14px 6px}
+  .ck-ft .ft-l{flex:1 1 100%}
+  .ck-ft .ft-r{width:100%;justify-content:flex-end}
+  .ck-2{grid-template-columns:1fr}
   .drawer-tab span{font-size:11px;letter-spacing:.24em}
 }
 </style>
@@ -456,6 +573,17 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
 
 <!-- 抽屉把手 -->
 <button class="drawer-tab" id="drawerTab" aria-label="打开目录"><span>目录</span></button>
+
+<!-- 结账 -->
+<div class="ck-mask" id="ckMask"></div>
+<div class="ck" id="ck" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="ck-hd">
+    <div class="ck-steps" id="ckSteps"><span>1 套餐</span><span>2 信息</span><span>3 支付</span><span>4 完成</span></div>
+    <button class="ck-x" id="ckX" aria-label="关闭">✕</button>
+  </div>
+  <div class="ck-body" id="ckBody"></div>
+  <div class="ck-ft" id="ckFoot"></div>
+</div>
 
 <!-- 抽屉 -->
 <div class="drawer-mask" id="drawerMask"></div>
@@ -848,7 +976,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
           <li>基础纪念页（永久）</li>
           <li>年度意愿复核提醒</li>
         </ul>
-        <a href="#ferry" class="plan-btn plain">选择轻装版</a>
+        <button class="plan-btn plain" data-buy="light">选择轻装版</button>
       </div>
       <div class="plan hot rv" style="transition-delay:.05s">
         <div class="plan-badge">推荐</div>
@@ -862,7 +990,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
           <li>三把钥匙触发机制</li>
           <li>每年一次一对一意愿梳理</li>
         </ul>
-        <a href="#ferry" class="plan-btn">选择周全版</a>
+        <button class="plan-btn" data-buy="complete">选择周全版</button>
       </div>
       <div class="plan rv" style="transition-delay:.1s">
         <div class="plan-name">薛定谔版</div>
@@ -875,13 +1003,62 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
           <li>专属顾问通道</li>
           <li>服务状态观测前保持叠加态</li>
         </ul>
-        <a href="#ferry" class="plan-btn plain">选择薛定谔版</a>
+        <button class="plan-btn plain" data-buy="schro">选择薛定谔版</button>
       </div>
     </div>
     <p class="price-note">
       服务条款第 9 条：若您在签约后 72 小时内复活，我们全额退款并赠送一次心理咨询。
       该条款字号与合同其他条款一致。
     </p>
+  </div>
+</section>
+
+<!-- 交易过程 -->
+<section class="sec" id="deal">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div>
+        <div class="sec-tag rv">交易过程</div>
+        <h2 class="rv">一笔订单，从头到尾。</h2>
+      </div>
+      <p class="sec-desc rv" style="transition-delay:.08s">这是 2025 年 11 月 14 日一位用户的真实流水，隐去个人信息。我们不省略任何一步。</p>
+    </div>
+    <div class="deal-grid">
+      <div class="receipt rv">
+        <div class="rc-hd"><b>电子对账单</b><span>STMT-20251114-0731</span></div>
+        <div class="rc-row"><span>订单编号</span><b>BI-20251114-0731</b></div>
+        <div class="rc-row"><span>服务套餐</span><b>周全版 Complete · 一年期</b></div>
+        <div class="rc-row"><span>下单时间</span><b>2025-11-14 22:07:31</b></div>
+        <div class="rc-row"><span>支付方式</span><b>微信支付 · 尾号 8823</b></div>
+        <div class="rc-row"><span>订单原价</span><b>¥ 399.00</b></div>
+        <div class="rc-row"><span>新客首年优惠</span><b class="neg">− ¥ 39.90</b></div>
+        <div class="rc-row total"><span>实付金额</span><b>¥ 359.10</b></div>
+        <div class="rc-sub">价格已含增值税 6%，由彼岸（上海）信息技术有限公司开具</div>
+        <div class="rc-foot">
+          <div><span>发票类型</span><b>电子普通发票</b></div>
+          <div><span>开具状态</span><b class="ok">已开具</b></div>
+          <div><span>服务期至</span><b>2026-11-13</b></div>
+        </div>
+        <div class="rc-act">
+          <button class="btn btn-ghost sm" id="dlStmt">下载对账单</button>
+          <button class="btn btn-ghost sm" id="lookupBtn">查询我的订单</button>
+        </div>
+      </div>
+      <div class="deal-side">
+        <ol class="tl rv">
+          <li class="done"><span class="tl-t">22:07:31</span><b>提交订单</b><em>选择周全版，填写手机号与受托人</em></li>
+          <li class="done"><span class="tl-t">22:09:02</span><b>支付完成</b><em>微信支付，耗时 1 分 31 秒</em></li>
+          <li class="done"><span class="tl-t">22:09:40</span><b>发票开具</b><em>电子普通发票已发送至预留邮箱</em></li>
+          <li class="done"><span class="tl-t">22:10:15</span><b>清单建立</b><em>生成空白清单，10 项待填写</em></li>
+          <li class="done"><span class="tl-t">22:26:44</span><b>意愿存证</b><em>47 条意愿完成时间戳存证</em></li>
+          <li class="active"><span class="tl-t">进行中</span><b>等待受托人确认</b><em>受托人尚未登录，7 日内未确认将自动提醒</em></li>
+          <li><span class="tl-t">待发生</span><b>生效待触发</b><em>三把钥匙同时到位方才启动</em></li>
+        </ol>
+        <div class="deal-note rv" style="transition-delay:.1s">
+          <b>全程可查。</b>每一步都会产生一条带时间戳的回执。您与受托人随时可以在「我的订单」里看到同一份记录。
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1193,6 +1370,322 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
     }
   })();
 })();
+
+/* ===== 交易流程 ===== */
+(function(){
+  var PLANS={
+    light:{id:'light',name:'轻装版',en:'Light',price:99,desc:'20 项资产 · 1 封定时信件 · 基础纪念页'},
+    complete:{id:'complete',name:'周全版',en:'Complete',price:399,desc:'不限数量资产 · 纪念空间 · 10 项身后代办 · 三把钥匙',hot:true},
+    schro:{id:'schro',name:'薛定谔版',en:'Schrödinger',price:999,desc:'周全版全部权益 · 每年一次全流程演练 · 专属顾问'}
+  };
+  var PAY={
+    wechat:{id:'wechat',name:'微信支付',note:'推荐 · 98% 用户选择'},
+    alipay:{id:'alipay',name:'支付宝',note:'可用花呗分期'},
+    bank:{id:'bank',name:'对公转账',note:'需人工确认'}
+  };
+  var S={step:1,plan:'complete',info:{name:'',phone:'',email:'',inv:'',tax:'',for:'self'},pay:'wechat',order:null,view:'checkout'};
+  var ck=document.getElementById('ck'),mask=document.getElementById('ckMask'),body=document.getElementById('ckBody'),
+      foot=document.getElementById('ckFoot'),steps=document.getElementById('ckSteps'),xBtn=document.getElementById('ckX');
+  if(!ck)return;
+
+  function pad(n){return n<10?'0'+n:''+n}
+  function now(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())}
+  function orderNo(){var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',s='';for(var i=0;i<6;i++)s+=c[Math.floor(Math.random()*c.length)];
+    var d=new Date();return 'BI-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'-'+s}
+  function price(plan){var p=PLANS[plan].price,off=Math.round(p*0.1*100)/100;return{origin:p,off:off,total:Math.round((p-off)*100)/100}}
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function open(view){S.view=view||'checkout';ck.classList.add('on');mask.classList.add('on');ck.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';render()}
+  function close(){ck.classList.remove('on');mask.classList.remove('on');ck.setAttribute('aria-hidden','true');document.body.style.overflow='';stopTimer()}
+  if(xBtn)xBtn.addEventListener('click',close);
+  mask.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ck.classList.contains('on'))close()});
+
+  function setSteps(){
+    var sp=steps.children;
+    for(var i=0;i<sp.length;i++){
+      sp[i].className=i<S.step-1?'done':(i===S.step-1?'on':'');
+    }
+  }
+
+  /* --- 步骤 1：选套餐 --- */
+  function viewPlan(){
+    var h='<div class="ck-plans">';
+    for(var k in PLANS){var p=PLANS[k];
+      h+='<div class="ck-plan'+(S.plan===k?' on':'')+'" data-plan="'+k+'">'
+        +'<span class="rp"></span><span class="cp-n"><b>'+p.name+(p.hot?'<span class="tag-hot">推荐</span>':'')+'</b><em>'+p.desc+'</em></span>'
+        +'<span class="cp-p">¥'+p.price+'<span>/ 年</span></span></div>';
+    }
+    h+='</div><div class="f-err" id="ckErr"></div>';
+    body.innerHTML=h;
+    body.querySelectorAll('.ck-plan').forEach(function(el){
+      el.addEventListener('click',function(){S.plan=el.getAttribute('data-plan');render()});
+    });
+    foot.innerHTML='<span class="ft-l">按年订阅，随时可在「我的订单」中取消</span><div class="ft-r"><button class="btn btn-primary" id="ckNext">下一步 · 填写信息</button></div>';
+    document.getElementById('ckNext').addEventListener('click',function(){S.step=2;render()});
+  }
+
+  /* --- 步骤 2：填信息 --- */
+  function viewInfo(){
+    var i=S.info;
+    body.innerHTML='<form id="ckForm" onsubmit="return false">'
+      +'<div class="f-2">'
+      +'<div class="f-row"><label>真实姓名 <i>*</i></label><input class="f-in" id="fName" placeholder="与证件一致" value="'+esc(i.name)+'"></div>'
+      +'<div class="f-row"><label>手机号 <i>*</i></label><input class="f-in" id="fPhone" placeholder="11 位手机号" inputmode="numeric" maxlength="11" value="'+esc(i.phone)+'"></div>'
+      +'</div>'
+      +'<div class="f-row"><label>接收发票与回执的邮箱 <i>*</i></label><input class="f-in" id="fMail" placeholder="name@example.com" value="'+esc(i.email)+'"></div>'
+      +'<div class="f-2">'
+      +'<div class="f-row"><label>发票抬头 <i>*</i></label><input class="f-in" id="fInv" placeholder="个人填姓名，单位填全称" value="'+esc(i.inv)+'"></div>'
+      +'<div class="f-row"><label>纳税人识别号（选填）</label><input class="f-in" id="fTax" placeholder="单位开票必填" value="'+esc(i.tax)+'"></div>'
+      +'</div>'
+      +'<div class="f-row"><label>办理对象</label><div class="f-seg">'
+      +'<button type="button" class="seg'+(i.for==='self'?' on':'')+'" data-for="self">为我自己</button>'
+      +'<button type="button" class="seg'+(i.for==='family'?' on':'')+'" data-for="family">为家人代办</button>'
+      +'</div></div>'
+      +'<div class="f-err" id="ckErr"></div></form>';
+    body.querySelectorAll('.seg').forEach(function(b){
+      b.addEventListener('click',function(){S.info.for=b.getAttribute('data-for');
+        body.querySelectorAll('.seg').forEach(function(x){x.classList.remove('on')});b.classList.add('on')});
+    });
+    var pr=price(S.plan);
+    foot.innerHTML='<span class="ft-l">合计应付 <b style="color:var(--brand)">¥'+pr.total.toFixed(2)+'</b>（原价 ¥'+pr.origin+'，新客首年立减 10%）</span>'
+      +'<div class="ft-r"><button class="btn btn-ghost" id="ckBack">上一步</button><button class="btn btn-primary" id="ckNext">提交订单</button></div>';
+    document.getElementById('ckBack').addEventListener('click',function(){S.step=1;render()});
+    document.getElementById('ckNext').addEventListener('click',submitInfo);
+  }
+
+  function submitInfo(){
+    var err=document.getElementById('ckErr');
+    var n=document.getElementById('fName').value.trim(),
+        ph=document.getElementById('fPhone').value.trim(),
+        em=document.getElementById('fMail').value.trim(),
+        iv=document.getElementById('fInv').value.trim(),
+        tx=document.getElementById('fTax').value.trim();
+    var msg='';
+    if(!n)msg='请填写真实姓名。';
+    else if(!/^1[3-9]\d{9}$/.test(ph))msg='手机号格式不对，11 位大陆号码。';
+    else if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))msg='邮箱格式不对，发票和回执都要寄到这里。';
+    else if(!iv)msg='请填写发票抬头。';
+    if(msg){err.textContent=msg;err.classList.add('on');return}
+    S.info={name:n,phone:ph,email:em,inv:iv,tax:tx,for:S.info.for};
+    err.classList.remove('on');
+    S.step=3;render();
+  }
+
+  /* --- 步骤 3：支付 --- */
+  var timer=null;
+  function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+  function viewPay(){
+    var pr=price(S.plan),p=PAY[S.pay];
+    var h='<div class="pay-list">';
+    for(var k in PAY){var o=PAY[k];
+      h+='<div class="pay-op'+(S.pay===k?' on':'')+'" data-pay="'+k+'"><span class="pi"></span>'+o.name+'<em>'+o.note+'</em></div>';
+    }
+    h+='</div>';
+    if(S.pay==='bank'){
+      h+='<div class="pay-box" style="flex-direction:column;align-items:flex-start;gap:12px">'
+        +'<div class="pay-tip" style="width:100%"><b>对公转账</b>'
+        +'<p style="margin-top:10px">户名：彼岸（上海）信息技术有限公司<br>开户行：招商银行上海分行营业部<br>账号：1219 0822 5510 901<br>备注：订单号（转账后 1 个工作日内确认，到账即开通）</p></div></div>';
+    }else{
+      h+='<div class="pay-box"><div class="qr"><canvas id="qrCanvas" width="104" height="104"></canvas></div>'
+        +'<div class="pay-tip"><b>'+(S.pay==='wechat'?'微信支付':'支付宝')+' · 扫码支付 ¥'+pr.total.toFixed(2)+'</b>'
+        +'<p>请使用'+(S.pay==='wechat'?'微信':'支付宝')+'扫描左侧二维码完成支付。<br>二维码 <span class="cd" id="qrCd">--:--</span> 后失效，失效后可点击刷新。</p></div></div>';
+    }
+    h+='<div class="f-err" id="ckErr"></div>';
+    body.innerHTML=h;
+    body.querySelectorAll('.pay-op').forEach(function(el){
+      el.addEventListener('click',function(){S.pay=el.getAttribute('data-pay');render()});
+    });
+    if(S.pay!=='bank'){drawQR(document.getElementById('qrCanvas'));startCd()}
+    foot.innerHTML='<span class="ft-l">订单已锁定 15 分钟，超时自动取消</span>'
+      +'<div class="ft-r"><button class="btn btn-ghost" id="ckBack">上一步</button><button class="btn btn-primary" id="ckPay">我已完成支付</button></div>';
+    document.getElementById('ckBack').addEventListener('click',function(){S.step=2;render()});
+    document.getElementById('ckPay').addEventListener('click',function(){payDone()});
+  }
+  function startCd(){
+    stopTimer();var left=15*60,el=document.getElementById('qrCd');
+    if(!el)return;
+    function tick(){
+      var m=Math.floor(left/60),s=left%60;
+      el.textContent=pad(m)+':'+pad(s);
+      if(left--<=0){el.textContent='已失效';stopTimer()}
+    }
+    tick();timer=setInterval(tick,1000);
+  }
+  function drawQR(cv){
+    if(!cv)return;
+    var n=25,s=4,ctx=cv.getContext('2d');
+    cv.width=n*s;cv.height=n*s;
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);ctx.fillStyle='#0f172a';
+    for(var i=0;i<n;i++)for(var j=0;j<n;j++){
+      if(Math.random()<0.44)ctx.fillRect(i*s,j*s,s,s);
+    }
+    function finder(x,y){
+      ctx.fillStyle='#0f172a';ctx.fillRect(x*s,y*s,7*s,7*s);
+      ctx.fillStyle='#fff';ctx.fillRect((x+1)*s,(y+1)*s,5*s,5*s);
+      ctx.fillStyle='#0f172a';ctx.fillRect((x+2)*s,(y+2)*s,3*s,3*s);
+    }
+    finder(0,0);finder(n-7,0);finder(0,n-7);
+  }
+
+  /* --- 步骤 4：完成 --- */
+  function payDone(){
+    var pr=price(S.plan);
+    S.order={
+      no:orderNo(),plan:S.plan,name:S.info.name,phone:S.info.phone,email:S.info.email,
+      inv:S.info.inv,for:S.info.for,pay:S.pay,origin:pr.origin,off:pr.off,total:pr.total,time:now()
+    };
+    var list=[];
+    try{list=JSON.parse(localStorage.getItem('bian_orders')||'[]')}catch(e){}
+    list.unshift(S.order);
+    try{localStorage.setItem('bian_orders',JSON.stringify(list.slice(0,20)))}catch(e){}
+    S.step=4;render();
+  }
+  function viewDone(){
+    var o=S.order,p=PLANS[o.plan],pr=price(o.plan);
+    var h='<div class="ck-done"><div class="ok">✓</div><h3>支付成功</h3>'
+      +'<p>订单已进入执行队列。收据已发送至 '+esc(o.email)+'</p></div>'
+      +'<div class="ck-sum">'
+      +'<div class="r"><span>订单编号</span><b>'+o.no+'</b></div>'
+      +'<div class="r"><span>服务套餐</span><b>'+p.name+' · 一年期</b></div>'
+      +'<div class="r"><span>订单原价</span><b>¥'+pr.origin.toFixed(2)+'</b></div>'
+      +'<div class="r"><span>新客首年优惠</span><b style="color:#4c9a6f">− ¥'+pr.off.toFixed(2)+'</b></div>'
+      +'<div class="r tot"><span>实付金额</span><b>¥'+pr.total.toFixed(2)+'</b></div>'
+      +'</div>'
+      +'<div class="ck-next"><h4>接下来三步</h4><ol>'
+      +'<li><span>01</span>完善资产清单：系统已生成空白清单，10 项待填写，约 10 分钟</li>'
+      +'<li><span>02</span>指定受托人：建议指定 2 位，触发时至少 1 位在场</li>'
+      +'<li><span>03</span>设置医疗意愿：47 条常用条目可直接勾选，可随时修改</li>'
+      +'</ol></div>'
+      +'<p class="ck-lk">还没想好怎么填？<a href="#ferry" id="ckToFerry">先和摆渡人聊聊</a>，他凌晨也在。</p>';
+    body.innerHTML=h;
+    var lk=document.getElementById('ckToFerry');
+    if(lk)lk.addEventListener('click',function(){close()});
+    foot.innerHTML='<span class="ft-l">14 天内可无理由全额退款</span><div class="ft-r">'
+      +'<button class="btn btn-ghost" id="ckDl">下载收据</button>'
+      +'<button class="btn btn-primary" id="ckView">查看订单进度</button></div>';
+    document.getElementById('ckDl').addEventListener('click',function(){downloadStmt(o)});
+    document.getElementById('ckView').addEventListener('click',function(){S.view='order';render()});
+  }
+
+  /* --- 订单查询 --- */
+  function viewLookup(){
+    var h='<div class="f-row"><label>输入订单编号查询</label><div class="lk-form">'
+      +'<input class="f-in" id="lkNo" placeholder="BI-20251114-0731">'
+      +'<button class="btn btn-primary" id="lkGo">查询</button></div></div>'
+      +'<div class="f-err" id="ckErr"></div><div id="lkOut"></div>';
+    body.innerHTML=h;
+    document.getElementById('lkGo').addEventListener('click',doLookup);
+    document.getElementById('lkNo').addEventListener('keydown',function(e){if(e.key==='Enter')doLookup()});
+    foot.innerHTML='<span class="ft-l">订单记录保存在本机浏览器，演示环境不会上传</span><div class="ft-r"><button class="btn btn-ghost" id="ckBack">返回</button></div>';
+    document.getElementById('ckBack').addEventListener('click',function(){S.view='checkout';render()});
+  }
+  function doLookup(){
+    var v=(document.getElementById('lkNo').value||'').trim().toUpperCase(),
+        out=document.getElementById('lkOut'),err=document.getElementById('ckErr');
+    var list=[];
+    try{list=JSON.parse(localStorage.getItem('bian_orders')||'[]')}catch(e){}
+    var found=null;
+    for(var i=0;i<list.length;i++)if(list[i].no.toUpperCase()===v)found=list[i];
+    if(v==='BI-20251114-0731'){renderOrder({no:'BI-20251114-0731',plan:'complete',name:'张 *',pay:'wechat',origin:399,off:39.9,total:359.1,time:'2025-11-14 22:07:31'},true);return}
+    if(!found){err.textContent='未找到该订单号。请核对是否为 BI- 开头的完整编号。';err.classList.add('on');out.innerHTML='';return}
+    err.classList.remove('on');
+    renderOrder(found,false);
+  }
+  function renderOrder(o,isSample){
+    var p=PLANS[o.plan]||PLANS.complete,pr=price(o.plan);
+    var out=document.getElementById('lkOut');
+    if(!out)return;
+    var stepsHtml='<ol class="tl" style="margin-top:16px">'
+      +'<li class="done"><span class="tl-t">'+esc(o.time)+'</span><b>提交订单</b><em>'+p.name+' · '+(o.for==='family'?'为家人代办':'为本人办理')+'</em></li>'
+      +'<li class="done"><span class="tl-t">支付完成</span><b>已支付 ¥'+pr.total.toFixed(2)+'</b><em>'+PAY[o.pay].name+'</em></li>'
+      +'<li class="done"><span class="tl-t">发票开具</span><b>电子普通发票已发送</b><em>'+esc(o.email||'预留邮箱')+'</em></li>'
+      +'<li class="active"><span class="tl-t">进行中</span><b>等待完善资产清单</b><em>清单已生成，10 项待填写</em></li>'
+      +'<li><span class="tl-t">待发生</span><b>生效待触发</b><em>三把钥匙同时到位方才启动</em></li></ol>';
+    function maskName(v){v=String(v||'');if(!v)return '—';return v.length<=1?v:v.charAt(0)+'*'+v.charAt(v.length-1)}
+    function maskPhone(v){v=String(v||'');return v.length>=7?v.slice(0,3)+'****'+v.slice(-4):v}
+    out.innerHTML='<div class="ck-lookup">'
+      +'<div class="r"><span>订单编号</span><b>'+esc(o.no)+'</b></div>'
+      +(o.name?'<div class="r"><span>客户</span><b>'+esc(maskName(o.name))+(o.phone?' · '+esc(maskPhone(o.phone)):'')+'</b></div>':'')
+      +'<div class="r"><span>服务套餐</span><b>'+p.name+' · 一年期</b></div>'
+      +'<div class="r"><span>支付方式</span><b>'+(PAY[o.pay]?PAY[o.pay].name:o.pay)+'</b></div>'
+      +'<div class="r"><span>实付金额</span><b>¥'+pr.total.toFixed(2)+'</b></div>'
+      +'<div class="r"><span>服务期至</span><b>'+(function(){var d=new Date();d.setFullYear(d.getFullYear()+1);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())})()+'</b></div>'
+      +'</div>'+stepsHtml
+      +(isSample?'<p style="font-size:11.5px;color:var(--ink-4);margin-top:12px;line-height:1.7">这是示例订单，展示完整流水与进度节点。完成一次真实下单后，你的订单也会出现在这里。</p>':'');
+  }
+
+  /* --- 对账单下载 --- */
+  function downloadStmt(o){
+    var p=PLANS[o.plan]||PLANS.complete,pr=price(o.plan);
+    var txt=[
+      '彼岸（上海）信息技术有限公司  电子对账单',
+      '========================================',
+      '对账单编号：STMT-'+(o.no||'').replace('BI-',''),
+      '订单编号　　：'+o.no,
+      '下单时间　　：'+o.time,
+      '客户　　　　：'+(o.name||'—')+(o.phone?'（'+o.phone+'）':''),
+      '发票抬头　　：'+(o.inv||'—')+(o.tax?'　纳税人识别号：'+o.tax:''),
+      '服务套餐　　：'+p.name+' '+p.en+' · 一年期',
+      '支付方式　　：'+(PAY[o.pay]?PAY[o.pay].name:o.pay),
+      '----------------------------------------',
+      '订单原价　　：¥ '+pr.origin.toFixed(2),
+      '新客首年优惠：− ¥ '+pr.off.toFixed(2),
+      '实付金额　　：¥ '+pr.total.toFixed(2),
+      '----------------------------------------',
+      '价格已含增值税 6%，由彼岸（上海）信息技术有限公司开具',
+      '发票类型　　：电子普通发票',
+      '服务期至　　：一年期，自支付成功日起算',
+      '',
+      '退款政策：签约后 14 天内可无理由全额退款；',
+      '　　　　　退款将在 3 个工作日内原路退回。',
+      '',
+      '本对账单由系统自动生成，与人工账单具有同等效力。'
+    ].join('\n');
+    var blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download='STMT-'+String(o.no||'').replace('BI-','')+'.txt';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(a.href)},3000);
+  }
+
+  /* --- 渲染分发 --- */
+  function render(){
+    setSteps();
+    if(S.view==='order'){viewOrder();return}
+    if(S.view==='lookup'){viewLookup();return}
+    if(S.step===1)viewPlan();
+    else if(S.step===2)viewInfo();
+    else if(S.step===3)viewPay();
+    else viewDone();
+  }
+  function viewOrder(){
+    body.innerHTML='<div style="font-size:13px;color:var(--ink-3);line-height:1.9">您的订单已进入执行队列。下面是当前进度——每一步都会产生一条带时间戳的回执，您与受托人看到的是同一份记录。</div>';
+    var div=document.createElement('div');
+    body.appendChild(div);
+    var old=document.getElementById('lkOut');
+    if(old)old.remove();
+    div.id='lkOut';
+    renderOrder(S.order,false);
+    foot.innerHTML='<span class="ft-l">订单号 '+S.order.no+'</span><div class="ft-r">'
+      +'<button class="btn btn-ghost" id="ckDl2">下载收据</button>'
+      +'<button class="btn btn-primary" id="ckDone">完成</button></div>';
+    document.getElementById('ckDl2').addEventListener('click',function(){downloadStmt(S.order)});
+    document.getElementById('ckDone').addEventListener('click',close);
+  }
+
+  /* --- 绑定入口 --- */
+  document.querySelectorAll('[data-buy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      S.plan=b.getAttribute('data-buy');S.step=1;S.view='checkout';open('checkout');
+    });
+  });
+  var lb=document.getElementById('lookupBtn');
+  if(lb)lb.addEventListener('click',function(){S.view='lookup';open('lookup')});
+  var dl=document.getElementById('dlStmt');
+  if(dl)dl.addEventListener('click',function(){downloadStmt({no:'BI-20251114-0731',plan:'complete',name:'张 *',phone:'138****8823',email:'z***@example.com',inv:'个人',pay:'wechat',time:'2025-11-14 22:07:31'})});
+})();
+
 </script>
 </body>
 </html>
