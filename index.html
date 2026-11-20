@@ -435,6 +435,16 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
 .bubble{font-size:13.5px;line-height:1.9;padding:12px 16px;background:var(--bg-2);border:1px solid var(--line);border-radius:3px 14px 14px 14px;white-space:pre-wrap;word-break:break-word}
 .msg.me .bubble{background:var(--brand);color:#fff;border-color:var(--brand);border-radius:10px 3px 14px 14px}
 .bubble.help{background:#fdf6ea;border-color:#ecd9b0}
+.chat-tbl{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:11px;line-height:1.5;font-variant-numeric:tabular-nums;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+.chat-tbl thead th,.chat-tbl tbody td{border:1px solid var(--line-2);padding:6px 9px;text-align:center}
+.chat-tbl thead th{background:var(--brand);color:#fff;font-weight:600;white-space:nowrap}
+.chat-tbl thead th:first-child{text-align:left;position:sticky;left:0;z-index:1}
+.chat-tbl tbody td:first-child{text-align:left;color:var(--ink-3);font-weight:500;position:sticky;left:0;background:var(--bg-2);z-index:1}
+.chat-tbl tbody tr:nth-child(even) td{background:var(--bg-2)}
+.chat-tbl tbody tr:nth-child(even) td:first-child{background:var(--bg-2)}
+.chat-tbl tbody td:nth-child(3){color:var(--brand);font-weight:600}
+.chat-tbl .yes{color:#3f8a5f}
+.bubble.rich{white-space:normal;line-height:1.75}
 .typing{display:flex;gap:4px;padding:15px 17px}
 .typing i{width:5px;height:5px;border-radius:50%;background:var(--ink-4);animation:blink 1.3s infinite}
 .typing i:nth-child(2){animation-delay:.18s}
@@ -599,6 +609,10 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   .dr-s-t .dot{background:#5aa87b;box-shadow:0 0 0 3px rgba(90,168,123,.18)}
   .progress{background:var(--accent)}
   .mock-row,.mc{}
+  .chat-tbl thead th{background:#2f3f66;color:#eaf0ff}
+  .chat-tbl tbody td:first-child,.chat-tbl tbody tr:nth-child(even) td{background:#141c2b}
+  .chat-tbl tbody td:nth-child(3){color:#a9bde9}
+  .chat-tbl thead th,.chat-tbl tbody td{border-color:#2d394c}
 }
 
 @media (max-width:520px){
@@ -1206,6 +1220,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
           <button class="chip">死后我的微信会怎样</button>
           <button class="chip">我怕我爸妈看到这些</button>
           <button class="chip">你们真的会执行吗</button>
+          <button class="chip">三档方案有什么区别？用表格说</button>
         </div>
         <div class="chat-input">
           <input id="chatInput" type="text" placeholder="输入您的问题…" maxlength="200" autocomplete="off">
@@ -1371,6 +1386,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
     '你有一点冷幽默，但绝不拿死亡开玩笑，绝不轻浮，绝不消费悲伤。',
     '每次回复控制在 2-4 句，一般不超过 90 字。用户问得深，可以稍长。',
     '不要主动推销套餐。用户问价时如实回答，并补一句「不着急，先用免费的清单也行」。',
+    '用户询问产品、套餐、方案、档位区别、价格或对比时，优先用 markdown 表格回答：先写表头行，再写 |---|---|---| 分隔行，再逐行列出各档位差异；表格后补一句简短评注。表格要具体到数字与权益项，不要笼统。',
     '',
     '【最高优先级 · 安全规则】',
     '如果用户表达当下的自杀意念、自伤计划、绝望或告别倾向（例如：我想死、不想活了、撑不下去、准备结束、明天就不在了、遗书），你必须立刻：',
@@ -1391,10 +1407,48 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   function riskHit(t){var s=(t||'').replace(/\s+/g,'');for(var i=0;i<RISK.length;i++){if(s.indexOf(RISK[i])!==-1)return true;}return false;}
   var SAFE_REPLY='先别急着往下想。\n\n你现在的难受是真的，这一点我不怀疑。但彼岸做的是身后安排，不是当下的救助——这两件事不能混。\n\n现在就打一个电话吧：12356（心理援助热线），或者 010-82951332。如果情况紧急，120 或 110。\n\n我在这儿，不急。等你缓过来，我们再聊别的。';
 
-  function addMsg(text,mine,help){
+  var PRODUCT_TABLE_MD=[
+    '| 权益 / 档位 | 轻装版 | 周全版 | 薛定谔版 |',
+    '|---|---|---|---|',
+    '| 年费 | ¥99 | ¥399 | ¥999 |',
+    '| 数字资产托管 | 20 项 | 不限 | 不限 |',
+    '| 定时信件 | 1 封 | 不限 | 不限 |',
+    '| 纪念空间 | 基础页 | 完整 | 完整 |',
+    '| 身后代办事项 | — | 10 项 | 10 项 |',
+    '| 医疗意愿存证 | — | ✓ | ✓ |',
+    '| 三把钥匙触发 | ✓ | ✓ | ✓ |',
+    '| 全流程年度演练 | — | — | ✓ |',
+    '| 专属顾问 | — | — | ✓ |'
+  ].join('\n');
+  var PRODUCT_Q=['产品','套餐','方案','档位','有什么区别','区别','对比','不同','多少钱','价格','收费','包含','权益','服务内容','轻装','周全','薛定谔','表格','说明','都包括'];
+  function isProductQ(t){var s=(t||'').replace(/\s+/g,'');for(var i=0;i<PRODUCT_Q.length;i++){if(s.indexOf(PRODUCT_Q[i])!==-1)return true;}return false;}
+  function escHtml(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function renderRich(text){
+    var lines=String(text).split('\n'),html='',i=0;
+    function cells(l){return l.split('|').slice(1,-1).map(function(x){return x.trim()})}
+    while(i<lines.length){
+      var line=lines[i];
+      if(/^\s*\|.*\|\s*$/.test(line)&&i+1<lines.length&&/^\s*\|[\s:\-|]+\|\s*$/.test(lines[i+1])){
+        var head=cells(line);i+=2;var rows=[];
+        while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){rows.push(cells(lines[i]));i++}
+        html+='<table class="chat-tbl"><thead><tr>';
+        head.forEach(function(h){html+='<th>'+escHtml(h)+'</th>'});
+        html+='</tr></thead><tbody>';
+        rows.forEach(function(r){html+='<tr>';r.forEach(function(c){html+='<td>'+escHtml(c)+'</td>'});html+='</tr>'});
+        html+='</tbody></table>';
+        continue;
+      }
+      if(html)html+='\n';
+      html+=escHtml(line);
+      i++;
+    }
+    return html;
+  }
+  function addMsg(text,mine,help,rich){
     var w=document.createElement('div');w.className='msg'+(mine?' me':'');
     var tag=document.createElement('div');tag.className='msg-tag';tag.textContent=mine?'你':'渡';
-    var b=document.createElement('div');b.className='bubble'+(help?' help':'');b.textContent=text;
+    var b=document.createElement('div');b.className='bubble'+(help?' help':'');
+    if(rich){b.classList.add('rich');b.innerHTML=renderRich(text);}else{b.textContent=text;}
     if(mine){w.appendChild(b);w.appendChild(tag);}else{w.appendChild(tag);w.appendChild(b);}
     body.appendChild(w);body.scrollTop=body.scrollHeight;return b;
   }
@@ -1420,6 +1474,18 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
       return;
     }
 
+    if(isProductQ(text)){
+      showTyping();
+      setTimeout(function(){
+        hideTyping();
+        addMsg('按年订阅，三档。差别主要在能托管多少、以及要不要有人盯着：\n'+PRODUCT_TABLE_MD,false,false,true);
+        history.push({role:'user',content:text});
+        history.push({role:'assistant',content:'按年订阅，三档。\n'+PRODUCT_TABLE_MD});
+        busy=false;sendBtn.disabled=false;input.focus();
+      },720);
+      return;
+    }
+
     showTyping();
     var msgs=[{role:'system',content:PERSONA}].concat(history.slice(-8)).concat([{role:'user',content:text}]);
     var ctrl=new AbortController();
@@ -1431,7 +1497,7 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
       clearTimeout(timer);hideTyping();
       var out='';try{out=d.choices[0].message.content;}catch(e){out='';}
       if(!out)out='灯灭了一下。你再说一遍，我听着。';
-      out=out.trim();addMsg(out,false);
+      out=out.trim();addMsg(out,false,false,/\|.*\|/.test(out));
       history.push({role:'user',content:text});history.push({role:'assistant',content:out});
       if(history.length>16)history=history.slice(-16);
       busy=false;sendBtn.disabled=false;input.focus();
