@@ -595,7 +595,8 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
 @keyframes fwFall{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(300px) rotate(200deg);opacity:.15}}
 .rite-end{font-size:14.5px;line-height:2.2;color:#cfc9bb;font-weight:300;max-width:520px;margin:0 auto}
 .seal-end{display:inline-block;margin-top:26px;border:1px solid rgba(201,164,101,.5);color:#d8b273;font-size:12px;letter-spacing:.32em;padding:8px 16px 8px 20px;border-radius:4px}
-@media(max-width:860px){.fw-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){
+  .deal-grid{grid-template-columns:1fr;gap:26px}.fw-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){
   .farewell{padding:74px 0 70px}
   .fw-grid{gap:10px}
@@ -700,6 +701,16 @@ h2{font-size:clamp(25px,3vw,34px);font-weight:700;line-height:1.4;letter-spacing
   .ck-ft .ft-r{width:100%;justify-content:flex-end}
   .ck-2{grid-template-columns:1fr}
   .drawer-tab span{font-size:11px;letter-spacing:.24em}
+  .receipt{padding:22px 20px 20px}
+  .rc-hd{flex-wrap:wrap;gap:4px 12px}
+  .rc-row{gap:12px;font-size:12.5px;align-items:flex-start}
+  .rc-row span{flex:0 1 auto;min-width:0;overflow-wrap:anywhere}
+  .rc-row b{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+  .rc-foot{grid-template-columns:1fr 1fr;gap:12px 16px}
+  .rc-foot>div{min-width:0}
+  .rc-foot b{overflow-wrap:anywhere;font-size:12px}
+  .rc-act{flex-wrap:wrap}
+  .rc-act .btn{flex:1 1 auto;white-space:nowrap}
 }
 </style>
 </head>
