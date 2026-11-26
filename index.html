@@ -18,6 +18,19 @@ if('scrollRestoration' in history){try{history.scrollRestoration='manual'}catch(
 if(location.hash && location.hash!=='#'){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 </script>
 <style>
+/* ============ 开场过渡页 ============ */
+#preloader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#101a26;color:#fff;transition:opacity .7s cubic-bezier(.4,0,.2,1),visibility .7s}
+#preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+.pl-ring{width:92px;height:92px;border:1px solid rgba(228,196,141,.34);border-radius:50%;display:grid;place-items:center;
+  position:relative;animation:plFloat 2.4s ease-in-out infinite}
+.pl-ring::before{content:'';position:absolute;inset:-11px;border:1px solid rgba(228,196,141,.12);border-radius:50%}
+.pl-ring svg{width:38px;height:38px;color:#e4c48d;stroke-width:1.6}
+.pl-name{margin-top:32px;font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:.44em;text-indent:.44em;color:#fff}
+.pl-sub{margin-top:16px;font-size:13px;letter-spacing:.24em;color:rgba(255,255,255,.66);font-weight:400}
+.pl-line{position:absolute;bottom:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#b08d57,#e4c48d);
+  box-shadow:0 0 16px rgba(228,196,141,.6);transition:width .25s linear}
+@keyframes plFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 :root{
   --bg:#ffffff;
   --bg-2:#f6f7f5;
@@ -62,7 +75,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .num{font-variant-numeric:tabular-nums lining-nums}
 
 /* ============ Nav ============ */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 0;transition:padding .45s var(--ease),background .45s,box-shadow .45s;color:#fff}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 0;transition:padding .45s var(--ease),background .45s,box-shadow .45s;color:#fff;
+  background:linear-gradient(180deg,rgba(10,16,24,.55),rgba(10,16,24,0))}
 .nav-in{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
 .seal{width:40px;height:40px;background:rgba(228,196,141,.92);color:#1a2531;display:grid;place-items:center;border-radius:11px;font-weight:600;transition:.45s;flex:0 0 auto}
@@ -140,8 +154,8 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
 .hero{position:relative;overflow:hidden;color:#fff;background:#1c2733}
 /* 摄影大图铺底 + 克制的深色渐变遮罩（保留海面暖调，左侧稍深保证白字可读） */
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(12,20,30,.92) 0%,rgba(12,20,30,.8) 28%,rgba(12,20,30,.5) 52%,rgba(12,20,30,.2) 78%,rgba(12,20,30,.12) 100%),
-             linear-gradient(0deg,rgba(10,16,24,.5) 0%,transparent 40%);z-index:0}
+  background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
+             linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%);z-index:0}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:center/cover no-repeat;transform:scale(1.02);
   background-image:url('assets/hero-cover.jpg');
@@ -550,6 +564,11 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 
 /* ============ Responsive ============ */
 @media (max-width:1000px){
+  .pl-ring{width:74px;height:74px}
+  .pl-ring::before{inset:-9px}
+  .pl-ring svg{width:30px;height:30px}
+  .pl-name{font-size:30px;margin-top:26px}
+  .pl-sub{font-size:12px}
   .wrap,.nav-in{padding:0 24px}
   .nv{display:none}
   .hero-grid{padding-top:132px;padding-bottom:64px;grid-template-columns:1fr;gap:36px;min-height:auto}
@@ -689,6 +708,14 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 </style>
 </head>
 <body>
+
+<!-- 开场过渡页：首屏就绪或到点自动淡出；同一会话只播一次 -->
+<div id="preloader" aria-hidden="true">
+  <div class="pl-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="5" r="3"/></svg></div>
+  <div class="pl-name">彼岸</div>
+  <div class="pl-sub">让每一次告别，都有妥帖的安放</div>
+  <div class="pl-line" id="plLine"></div>
+</div>
 
 <div class="progress" id="progress"></div>
 
@@ -1374,6 +1401,49 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 </footer>
 
 <script>
+/* ============ 开场过渡页 ============
+   首屏大图/字体就绪即淡出；同一会话只播一次；有最短展示与超时兜底，绝不卡住用户。 */
+(function(){
+  var pl=document.getElementById('preloader');
+  if(!pl) return;
+  var seen=false;
+  try{seen=sessionStorage.getItem('lhy_intro')==='1';}catch(e){}
+  function hide(){
+    if(!pl || pl.classList.contains('done')) return;
+    try{sessionStorage.setItem('lhy_intro','1');}catch(e){}
+    pl.classList.add('done');
+    setTimeout(function(){ if(pl&&pl.parentNode) pl.parentNode.removeChild(pl); },800);
+  }
+  if(seen){ if(pl.parentNode) pl.parentNode.removeChild(pl); return; }
+  var line=document.getElementById('plLine'),pct=0;
+  var tick=setInterval(function(){
+    pct=Math.min(90,pct+ (pct<60?7:2));
+    if(line) line.style.width=pct+'%';
+  },110);
+  var started=Date.now(),MIN=1100,MAX=3000;
+  function finish(){
+    if(line) line.style.width='100%';
+    var wait=Math.max(0,MIN-(Date.now()-started));
+    setTimeout(function(){ clearInterval(tick); hide(); },wait);
+  }
+  // 等待首屏大图与标题字体；都就绪就收尾
+  var isMob=window.innerWidth<=1000;
+  var heroSrc=isMob?'assets/hero-cover-m.webp':'assets/hero-cover.webp';
+  var img=new Image();
+  var imgReady=false,fontReady=false;
+  function maybe(){ if(imgReady&&fontReady) finish(); }
+  img.onload=img.onerror=function(){imgReady=true;maybe();};
+  img.src=heroSrc;
+  if(document.fonts&&document.fonts.load){
+    Promise.race([
+      document.fonts.load('600 40px NotoSerifSC'),
+      new Promise(function(r){setTimeout(r,1500);})
+    ]).then(function(){fontReady=true;maybe();});
+  }else{fontReady=true;}
+  // 超时兜底：网络再慢也在 MAX 后放行
+  setTimeout(function(){ clearInterval(tick); finish(); },MAX);
+})();
+
 /* 首屏定位：head 里已尽早抹掉锚点+禁用滚动恢复。这里仅在首屏绘制前归零一次，
    不再用 load/setTimeout 二次拉回，避免用户看到"加载后跳回顶部"。站内点锚点走原生平滑滚动。 */
 (function(){
