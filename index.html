@@ -161,16 +161,16 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
 .hero::after{content:'';position:absolute;inset:-28px;pointer-events:none;z-index:0;
   background:url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBACdASosABkAPs1Uo00npKMiNUwA8BmJQBb9esB+Ov78pXQ0Q4KlqGwhz96KAAD+yMYlIK73ZUXYTzzc9W4zR8yI9wyo6ztVtqBRE+r+VmdUZokIumrGQZSwH2WMYDWytMbyiPoqjISTTaOUO0pHQezpA/+W6aYjTwAA') center/cover no-repeat;
   filter:blur(16px);transform:scale(1.03)}
-/* 真实大图独立成层：默认透明，图片解码完成后 JS 加 .img-ready 只做透明度淡入 —— 底层 LQIP 全程撑着，不会黑屏 */
-.hero-photo{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;
+/* 真实大图独立成层：z-index 高于模糊底，才能盖住它显出清晰照片；默认透明，解码后淡入 */
+.hero-photo{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0;
   background:center/cover no-repeat;transform:scale(1.02);
   transition:opacity .7s ease,transform 1.2s ease}
 .hero.img-ready .hero-photo{opacity:1;transform:scale(1)}
 /* 深色渐变遮罩：盖在模糊底与真实图之上，保证白字可读 */
-.hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
   background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
              linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%)}
-.hero .wrap,.hero-grid{position:relative;z-index:2;width:100%}
+.hero .wrap,.hero-grid{position:relative;z-index:3;width:100%}
 .hero-grid{padding-top:150px;padding-bottom:90px;display:grid;grid-template-columns:1.16fr .84fr;gap:60px;align-items:center;min-height:660px}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;color:#f2e2c4;background:rgba(12,20,30,.42);border:1px solid rgba(232,213,176,.42);padding:7px 15px;border-radius:99px;font-weight:600;margin-bottom:30px;letter-spacing:.04em;backdrop-filter:blur(8px)}
 .hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#e4c48d;box-shadow:0 0 0 3px rgba(228,196,141,.2)}
