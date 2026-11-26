@@ -157,18 +157,19 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
 
 /* ============ HERO (imagery-led, cinematic) ============ */
 .hero{position:relative;overflow:hidden;color:#fff;background:#1c2733}
-/* 摄影大图铺底 + 克制的深色渐变遮罩（保留海面暖调，左侧稍深保证白字可读） */
-.hero::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
-             linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%);z-index:0}
-.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+/* LQIP 模糊底：inset 负值让模糊晕开的边缘落在裁切区外，避免露黑边；始终铺满，不参与切换 */
+.hero::after{content:'';position:absolute;inset:-28px;pointer-events:none;z-index:0;
   background:url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBACdASosABkAPs1Uo00npKMiNUwA8BmJQBb9esB+Ov78pXQ0Q4KlqGwhz96KAAD+yMYlIK73ZUXYTzzc9W4zR8yI9wyo6ztVtqBRE+r+VmdUZokIumrGQZSwH2WMYDWytMbyiPoqjISTTaOUO0pHQezpA/+W6aYjTwAA') center/cover no-repeat;
-  transform:scale(1.04);filter:blur(14px);opacity:1;transition:opacity .6s ease}
-/* 真实大图加载完成后由 JS 加 .img-ready 切换，无缝淡入 */
-.hero.img-ready::after{
-  background-image:url('assets/hero-cover.jpg');
-  background-image:image-set(url('assets/hero-cover.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x);
-  filter:none;transform:scale(1.02)}
+  filter:blur(16px);transform:scale(1.03)}
+/* 真实大图独立成层：默认透明，图片解码完成后 JS 加 .img-ready 只做透明度淡入 —— 底层 LQIP 全程撑着，不会黑屏 */
+.hero-photo{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;
+  background:center/cover no-repeat;transform:scale(1.02);
+  transition:opacity .7s ease,transform 1.2s ease}
+.hero.img-ready .hero-photo{opacity:1;transform:scale(1)}
+/* 深色渐变遮罩：盖在模糊底与真实图之上，保证白字可读 */
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
+             linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%)}
 .hero .wrap,.hero-grid{position:relative;z-index:2;width:100%}
 .hero-grid{padding-top:150px;padding-bottom:90px;display:grid;grid-template-columns:1.16fr .84fr;gap:60px;align-items:center;min-height:660px}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;color:#f2e2c4;background:rgba(12,20,30,.42);border:1px solid rgba(232,213,176,.42);padding:7px 15px;border-radius:99px;font-weight:600;margin-bottom:30px;letter-spacing:.04em;backdrop-filter:blur(8px)}
@@ -582,9 +583,8 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
   .nv{display:none}
   .hero-grid{padding-top:132px;padding-bottom:64px;grid-template-columns:1fr;gap:36px;min-height:auto}
   /* 手机端用 26KB 小图（而非桌面 224KB），裁切聚焦海面暖光 */
-  .hero::after{background-position:58% center;
-    background-image:url('assets/hero-cover-m.webp');
-    background-image:image-set(url('assets/hero-cover-m.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x)}
+  .hero::after{background-position:58% center}
+  .hero-photo{background-position:58% center}
   .hero::before{background:linear-gradient(180deg,rgba(12,20,30,.84) 0%,rgba(12,20,30,.78) 42%,rgba(12,20,30,.86) 100%)}
   h1{font-size:clamp(34px,6.4vw,50px)}
   .trust{grid-template-columns:1fr 1fr;padding-bottom:40px}
@@ -796,6 +796,7 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 
 <!-- Hero -->
 <section class="hero" id="top">
+  <div class="hero-photo" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div>
       <div class="hero-tag rv">数字身后事 · 专业服务平台</div>
@@ -1413,12 +1414,18 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 /* ============ 首屏大图渐进加载 ============
    CSS 里先用 144B 内联模糊占位图立即出画面；这里后台加载真实大图，完成后无缝淡入。 */
 (function(){
-  var hero=document.querySelector('.hero');
-  if(!hero) return;
+  var hero=document.querySelector('.hero'),photo=document.querySelector('.hero-photo');
+  if(!hero||!photo) return;
   var isMob=window.innerWidth<=1000;
+  var src=isMob?'assets/hero-cover-m.webp':'assets/hero-cover.webp';
+  // 图片缓存命中后，先把 URL 赋给 .hero-photo（此时它 opacity:0 藏着），再淡入
   var img=new Image();
-  img.onload=function(){ hero.classList.add('img-ready'); };
-  img.src=isMob?'assets/hero-cover-m.webp':'assets/hero-cover.webp';
+  img.onload=function(){
+    photo.style.backgroundImage='url("'+src+'")';
+    // 等一帧确保背景已绑定渲染，再触发淡入，杜绝空白帧
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('img-ready'); }); });
+  };
+  img.src=src;
 })();
 
 /* ============ 开场过渡页 ============
