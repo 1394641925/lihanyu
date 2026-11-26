@@ -7,6 +7,11 @@
 <meta name="description" content="彼岸为个人与家庭提供数字资产托管、意愿存证、身后事务代办的全流程解决方案。覆盖 300+ 平台，三地把关，全程可追溯。">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b1019" media="(prefers-color-scheme: dark)">
+<!-- 首屏关键资源预加载：大图按屏幕尺寸分别预取，字体提前下载，减少首屏等待 -->
+<link rel="preload" as="image" href="assets/hero-cover.webp" media="(min-width:1001px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-cover-m.webp" media="(max-width:1000px)" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="assets/font-serif-600.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/font-sans-400.woff2" crossorigin>
 <script>
 /* 尽可能早地禁用滚动恢复、抹掉地址栏锚点：浏览器就不会在渲染后再滚到摆渡人 */
 if('scrollRestoration' in history){try{history.scrollRestoration='manual'}catch(e){}}
@@ -37,6 +42,7 @@ if(location.hash && location.hash!=='#'){try{history.replaceState(null,'',locati
   --sans:"NotoSansSC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+picture{display:block;width:100%}
 /* 免费商用字体：思源宋体(标题) + 思源黑体(正文)，按本站字符子集化本地托管 */
 @font-face{font-family:"NotoSerifSC";src:url('assets/font-serif-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"NotoSerifSC";src:url('assets/font-serif-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
@@ -137,7 +143,9 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
   background:linear-gradient(90deg,rgba(12,20,30,.92) 0%,rgba(12,20,30,.8) 28%,rgba(12,20,30,.5) 52%,rgba(12,20,30,.2) 78%,rgba(12,20,30,.12) 100%),
              linear-gradient(0deg,rgba(10,16,24,.5) 0%,transparent 40%);z-index:0}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
-  background:url('assets/hero-cover.jpg') center/cover no-repeat;transform:scale(1.02)}
+  background:center/cover no-repeat;transform:scale(1.02);
+  background-image:url('assets/hero-cover.jpg');
+  background-image:image-set(url('assets/hero-cover.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x)}
 .hero .wrap,.hero-grid{position:relative;z-index:2;width:100%}
 .hero-grid{padding-top:150px;padding-bottom:90px;display:grid;grid-template-columns:1.16fr .84fr;gap:60px;align-items:center;min-height:660px}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;color:#f2e2c4;background:rgba(12,20,30,.42);border:1px solid rgba(232,213,176,.42);padding:7px 15px;border-radius:99px;font-weight:600;margin-bottom:30px;letter-spacing:.04em;backdrop-filter:blur(8px)}
@@ -545,8 +553,10 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
   .wrap,.nav-in{padding:0 24px}
   .nv{display:none}
   .hero-grid{padding-top:132px;padding-bottom:64px;grid-template-columns:1fr;gap:36px;min-height:auto}
-  /* 手机端保留全屏大图，裁切聚焦海面暖光，遮罩略浅但仍保证白字可读 */
-  .hero::after{background-position:58% center}
+  /* 手机端用 26KB 小图（而非桌面 224KB），裁切聚焦海面暖光 */
+  .hero::after{background-position:58% center;
+    background-image:url('assets/hero-cover-m.webp');
+    background-image:image-set(url('assets/hero-cover-m.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x)}
   .hero::before{background:linear-gradient(180deg,rgba(12,20,30,.84) 0%,rgba(12,20,30,.78) 42%,rgba(12,20,30,.86) 100%)}
   h1{font-size:clamp(34px,6.4vw,50px)}
   .trust{grid-template-columns:1fr 1fr;padding-bottom:40px}
@@ -843,21 +853,21 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
     </div>
     <div class="scene-grid">
       <div class="scene rv">
-        <img src="assets/scene-night.jpg" alt="深夜的对话框" loading="lazy">
+        <picture><source srcset="assets/scene-night.webp" type="image/webp"><img src="assets/scene-night.jpg" alt="深夜的对话框" loading="lazy"></picture>
         <div class="scene-b">
           <b>23:47，最后一条消息</b>
           <p>对话框停在「在吗」，第二天没有下文。三个月过去，对方头像仍是彩色的。</p>
         </div>
       </div>
       <div class="scene rv" style="transition-delay:.06s">
-        <img src="assets/scene-drawer.jpg" alt="无人整理的数字设备" loading="lazy">
+        <picture><source srcset="assets/scene-drawer.webp" type="image/webp"><img src="assets/scene-drawer.jpg" alt="无人整理的数字设备" loading="lazy"></picture>
         <div class="scene-b">
           <b>抽屉里的十四个 U 盘</b>
           <p>家人整理出的全部数字遗产。其中五个设了密码，至今无人能解开。</p>
         </div>
       </div>
       <div class="scene rv" style="transition-delay:.12s">
-        <img src="assets/scene-light.jpg" alt="空无一人的走廊里亮着的灯" loading="lazy">
+        <picture><source srcset="assets/scene-light.webp" type="image/webp"><img src="assets/scene-light.jpg" alt="空无一人的走廊里亮着的灯" loading="lazy"></picture>
         <div class="scene-b">
           <b>亮着的灯</b>
           <p>账号仍在自动续费，账单照常弹出。系统提示：本月访问 0 次。</p>
@@ -964,7 +974,7 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
       </div>
     </div>
     <div class="flow-end rv">
-      <img src="assets/flow-end.jpg" alt="" loading="lazy">
+      <picture><source srcset="assets/flow-end.webp" type="image/webp"><img src="assets/flow-end.jpg" alt="" loading="lazy"></picture>
       <div class="fe-t">
         <h3>四步之后，您继续生活。</h3>
         <p>剩下的事按计划发生，不需要任何人再猜。</p>
@@ -1072,7 +1082,7 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 <!-- 值班室 -->
 <section class="sec" style="padding-top:0">
   <div class="wrap shift-grid">
-    <div class="shift-img rv"><img src="assets/office.jpg" alt="值班室" loading="lazy"></div>
+    <div class="shift-img rv"><picture><source srcset="assets/office.webp" type="image/webp"><img src="assets/office.jpg" alt="值班室" loading="lazy"></picture></div>
     <div class="shift-t">
       <div class="sec-tag rv">值班室</div>
       <h2 class="rv">凌晨一点，这盏灯还亮着。</h2>
@@ -1242,7 +1252,7 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
           最长单次对话 <b>4 小时</b>
         </div>
         <div class="ferry-photo rv" style="transition-delay:.2s">
-          <img src="assets/lighthouse.jpg" alt="灯塔" loading="lazy">
+          <picture><source srcset="assets/lighthouse.webp" type="image/webp"><img src="assets/lighthouse.jpg" alt="灯塔" loading="lazy"></picture>
           <span>值班室窗外没有灯塔。但每次系统触发，都确实有一盏灯亮着。</span>
         </div>
       </div>
