@@ -162,9 +162,13 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
   background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
              linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%);z-index:0}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
-  background:center/cover no-repeat;transform:scale(1.02);
+  background:url('data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAADQBACdASosABkAPs1Uo00npKMiNUwA8BmJQBb9esB+Ov78pXQ0Q4KlqGwhz96KAAD+yMYlIK73ZUXYTzzc9W4zR8yI9wyo6ztVtqBRE+r+VmdUZokIumrGQZSwH2WMYDWytMbyiPoqjISTTaOUO0pHQezpA/+W6aYjTwAA') center/cover no-repeat;
+  transform:scale(1.04);filter:blur(14px);opacity:1;transition:opacity .6s ease}
+/* 真实大图加载完成后由 JS 加 .img-ready 切换，无缝淡入 */
+.hero.img-ready::after{
   background-image:url('assets/hero-cover.jpg');
-  background-image:image-set(url('assets/hero-cover.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x)}
+  background-image:image-set(url('assets/hero-cover.webp') type('image/webp') 1x,url('assets/hero-cover.jpg') type('image/jpeg') 1x);
+  filter:none;transform:scale(1.02)}
 .hero .wrap,.hero-grid{position:relative;z-index:2;width:100%}
 .hero-grid{padding-top:150px;padding-bottom:90px;display:grid;grid-template-columns:1.16fr .84fr;gap:60px;align-items:center;min-height:660px}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;color:#f2e2c4;background:rgba(12,20,30,.42);border:1px solid rgba(232,213,176,.42);padding:7px 15px;border-radius:99px;font-weight:600;margin-bottom:30px;letter-spacing:.04em;backdrop-filter:blur(8px)}
@@ -1406,6 +1410,17 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
 </footer>
 
 <script>
+/* ============ 首屏大图渐进加载 ============
+   CSS 里先用 144B 内联模糊占位图立即出画面；这里后台加载真实大图，完成后无缝淡入。 */
+(function(){
+  var hero=document.querySelector('.hero');
+  if(!hero) return;
+  var isMob=window.innerWidth<=1000;
+  var img=new Image();
+  img.onload=function(){ hero.classList.add('img-ready'); };
+  img.src=isMob?'assets/hero-cover-m.webp':'assets/hero-cover.webp';
+})();
+
 /* ============ 开场过渡页 ============
    首屏大图/字体就绪即淡出；同一会话只播一次；有最短展示与超时兜底，绝不卡住用户。 */
 (function(){
