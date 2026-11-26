@@ -164,19 +164,20 @@ body.drawer-open .drawer-tab{opacity:0;pointer-events:none}
 /* 真实大图独立成层：z-index 高于模糊底，才能盖住它显出清晰照片；默认透明，解码后淡入 */
 .hero-photo{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0;
   background:center/cover no-repeat;transform:scale(1.02);
+  filter:brightness(1.06) saturate(1.05) contrast(1.03);
   transition:opacity .7s ease,transform 1.2s ease}
 .hero.img-ready .hero-photo{opacity:1;transform:scale(1)}
 /* 深色渐变遮罩：盖在模糊底与真实图之上，保证白字可读 */
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(90deg,rgba(12,20,30,.9) 0%,rgba(12,20,30,.78) 30%,rgba(12,20,30,.62) 55%,rgba(12,20,30,.42) 80%,rgba(12,20,30,.3) 100%),
-             linear-gradient(180deg,rgba(10,16,24,.5) 0%,transparent 30%,rgba(10,16,24,.35) 75%,rgba(10,16,24,.55) 100%)}
+  background:linear-gradient(90deg,rgba(12,20,30,.58) 0%,rgba(12,20,30,.4) 26%,rgba(12,20,30,.16) 52%,rgba(12,20,30,.04) 78%,rgba(12,20,30,.02) 100%),
+             linear-gradient(180deg,rgba(10,16,24,.2) 0%,transparent 26%,transparent 74%,rgba(10,16,24,.2) 100%)}
 .hero .wrap,.hero-grid{position:relative;z-index:3;width:100%}
 .hero-grid{padding-top:150px;padding-bottom:90px;display:grid;grid-template-columns:1.16fr .84fr;gap:60px;align-items:center;min-height:660px}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;color:#f2e2c4;background:rgba(12,20,30,.42);border:1px solid rgba(232,213,176,.42);padding:7px 15px;border-radius:99px;font-weight:600;margin-bottom:30px;letter-spacing:.04em;backdrop-filter:blur(8px)}
 .hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#e4c48d;box-shadow:0 0 0 3px rgba(228,196,141,.2)}
 h1{font-family:var(--serif);font-size:clamp(38px,4.6vw,60px);font-weight:600;line-height:1.3;letter-spacing:.01em;margin-bottom:24px;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.3)}
 h1 em{font-style:normal;color:#f0d5a4;position:relative;white-space:nowrap}
-.lead{font-size:16px;line-height:2.05;color:rgba(255,255,255,.94);max-width:35em;font-weight:400;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.lead{font-size:16px;line-height:2.05;color:rgba(255,255,255,.96);max-width:35em;font-weight:400;text-shadow:0 1px 10px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.45)}
 .lead b{font-weight:600;color:#fff}
 .hero-actions{display:flex;gap:13px;margin-top:38px;flex-wrap:wrap;align-items:center}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 30px;font-size:14px;font-weight:600;transition:.3s;border-radius:10px;line-height:1.2}
@@ -186,7 +187,7 @@ h1 em{font-style:normal;color:#f0d5a4;position:relative;white-space:nowrap}
 .btn-primary:hover{background:#e6c68f;color:#16202c;transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.26)}
 .btn-ghost{color:#fff;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
 .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.16);transform:translateY(-2px)}
-.btn-note{font-size:12px;color:rgba(255,255,255,.7);margin-left:4px}
+.btn-note{font-size:12px;color:rgba(255,255,255,.82);margin-left:4px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
 
 /* 首屏 · 机制卡（玻璃质感） */
 .keys{background:rgba(18,28,40,.42);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:34px 36px 30px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.22)}
@@ -207,7 +208,7 @@ h1 em{font-style:normal;color:#f0d5a4;position:relative;white-space:nowrap}
 .trust div{padding:26px 30px 0}
 .trust div+div{border-left:1px solid rgba(255,255,255,.18)}
 .trust b{display:block;font-family:var(--serif);font-weight:600;font-size:32px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em;line-height:1.2;white-space:nowrap}
-.trust span{display:block;font-size:12px;color:rgba(255,255,255,.62);margin-top:9px;letter-spacing:.04em}
+.trust span{display:block;font-size:12px;color:rgba(255,255,255,.72);margin-top:9px;letter-spacing:.04em;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 
 /* ============ Logo wall ============ */
 .logos{padding:34px 0 38px;border-bottom:1px solid var(--line);background:var(--bg)}
@@ -585,7 +586,11 @@ h2{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);font-weight:600;lin
   /* 手机端用 26KB 小图（而非桌面 224KB），裁切聚焦海面暖光 */
   .hero::after{background-position:58% center}
   .hero-photo{background-position:58% center}
-  .hero::before{background:linear-gradient(180deg,rgba(12,20,30,.84) 0%,rgba(12,20,30,.78) 42%,rgba(12,20,30,.86) 100%)}
+  .hero::before{background:linear-gradient(180deg,rgba(12,20,30,.38) 0%,rgba(12,20,30,.28) 42%,rgba(12,20,30,.42) 100%)}
+  h1{text-shadow:0 2px 18px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.5)}
+  .lead{text-shadow:0 1px 10px rgba(0,0,0,.65),0 1px 2px rgba(0,0,0,.5)}
+  .btn-note{color:rgba(255,255,255,.86);text-shadow:0 1px 6px rgba(0,0,0,.7)}
+  .trust b,.trust span{text-shadow:0 1px 10px rgba(0,0,0,.6)}
   h1{font-size:clamp(34px,6.4vw,50px)}
   .trust{grid-template-columns:1fr 1fr;padding-bottom:40px}
   .trust div{padding:18px 20px}
